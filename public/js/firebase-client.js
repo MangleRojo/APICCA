@@ -38,7 +38,7 @@ const db = getFirestore(app);
 // App Check con reCAPTCHA v3.
 // Obtener el site key en: Firebase Console → App Check → Registrar app → reCAPTCHA v3
 // Luego pegar aquí y activar ENFORCE_APP_CHECK=true en functions/.env.apicca-com
-const RECAPTCHA_SITE_KEY = "REEMPLAZAR_CON_SITE_KEY_DE_RECAPTCHA_V3";
+const RECAPTCHA_SITE_KEY = "6Le8vv8sAAAAALBooxXBegrU0FmLF6_Kgnb4_Vcd";
 
 let _appCheck = null;
 if (RECAPTCHA_SITE_KEY !== "REEMPLAZAR_CON_SITE_KEY_DE_RECAPTCHA_V3") {
