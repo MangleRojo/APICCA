@@ -25,19 +25,20 @@
     <meta property="twitter:image" content="https://apicca.com/img/social-share.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="img/favicon_io/site.webmanifest">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
-<body>
+<body class="te-home">
     <main class="home-main">
-        <!-- Hero Section — sin header, nav integrado -->
+
+        <!-- HERO -->
         <section class="hero">
-            <!-- Navegación dentro del Hero -->
             <div class="hero-nav">
                 <div class="menu-container">
                     <button class="menu-toggle" aria-label="Menu">
@@ -47,99 +48,273 @@
                     </button>
                     <nav>
                         <ul>
-                            <li><a href="/apices">Ápices</a></li>
-                            <li><a href="/resetario">Re(s)etario</a></li>
-
-                            <li><a href="/contacto">Contacto</a></li>
+                            <li><a href="/apices">ápices</a></li>
+                            <li><a href="/resetario">re(s)etario</a></li>
+                            <li><a href="/contacto">contacto</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
 
             <div class="hero-content">
-                <!-- Logo en lugar del título de texto -->
-                <a href="/" class="hero-logo-link">
-                    <img src="img/apicca_logo.png" alt="APICCA COMUN" class="hero-logo-img">
-                </a>
-                <p class="hero-subtitle">API para Crear y Conectar Autonomias Comunes</p>
-                <div class="hero-cta">
-                    <a href="/resetario" class="cta-primary">explorar el re(s)etario</a>
-                    <a href="/apices" class="cta-secondary">ver ápices</a>
+                <div class="hero-copy">
+                    <a href="/" class="hero-logo-link">
+                        <img src="img/apicca_logo.png" alt="APICCA COMUN" class="hero-logo-img">
+                    </a>
+                    <h1 class="hero-subtitle">api para crear y conectar autonomías comunes</h1>
+                    <div class="hero-cta">
+                        <a href="/resetario" class="cta-primary">explorar el re(s)etario</a>
+                        <a href="/apices" class="cta-secondary">ver ápices</a>
+                    </div>
                 </div>
-            </div>
-            <div class="hero-visual">
-                <img src="img/matrioz.png" alt="APICCA Matriz" class="hero-art">
+
+                <!-- Device chassis tipo K.O. II -->
+                <aside class="device" aria-hidden="true">
+
+                    <!-- Top I/O status bar -->
+                    <header class="device-io">
+                        <span class="io-pill is-on">output</span>
+                        <span class="io-pill">input</span>
+                        <span class="io-pill">sync</span>
+                        <span class="io-pill">midi</span>
+                        <span class="io-pill"></span>
+                        <span class="io-pill">usb</span>
+                        <span class="io-pill is-on">power</span>
+                    </header>
+
+                    <!-- Display screen -->
+                    <div class="device-screen">
+                        <div class="screen-meta">
+                            <span>bar</span>
+                            <span>fx</span>
+                            <span>q</span>
+                        </div>
+                        <div class="screen-display">
+                            <span class="screen-num">00.1</span>
+                            <span class="screen-unit">re·set</span>
+                        </div>
+                        <div class="screen-rec" aria-hidden="true"></div>
+                    </div>
+
+                    <!-- Brand block (K.O. II / サンプラー) -->
+                    <div class="device-brand">
+                        <div class="brand-mark">
+                            <span class="brand-name">apicca·001</span>
+                            <span class="brand-jp">レセタリオ</span>
+                        </div>
+                        <p class="brand-tag">re(s)etario · economías recíprocas</p>
+                    </div>
+
+                    <!-- Function row: KEYS / FADER / EDIT / COPY / LOOP / PITCH / TIME -->
+                    <div class="device-functions">
+                        <span class="fn-key">keys</span>
+                        <span class="fn-key">fader</span>
+                        <span class="fn-key is-active">edit</span>
+                        <span class="fn-key">copy</span>
+                        <span class="fn-key">loop</span>
+                        <span class="fn-key">pitch</span>
+                        <span class="fn-key">time</span>
+                    </div>
+
+                    <!-- Pad grid (4×3) -->
+                    <div class="device-pads">
+                        <div class="pad" data-led="red"><span class="pad-num">1</span><span class="pad-label">agua</span></div>
+                        <div class="pad" data-led="green"><span class="pad-num">2</span><span class="pad-label">alimento</span></div>
+                        <div class="pad" data-led="yellow"><span class="pad-num">3</span><span class="pad-label">cobijo</span></div>
+                        <div class="pad" data-led="orange"><span class="pad-num">4</span><span class="pad-label">energía</span></div>
+
+                        <div class="pad" data-led="blue"><span class="pad-num">5</span><span class="pad-label">comunic.</span></div>
+                        <div class="pad pad-muted"><span class="pad-num">6</span><span class="pad-label">tiempo</span></div>
+                        <div class="pad pad-muted"><span class="pad-num">7</span><span class="pad-label">espacio</span></div>
+                        <div class="pad pad-muted"><span class="pad-num">8</span><span class="pad-label">info</span></div>
+
+                        <div class="pad pad-light"><span class="pad-num">a</span><span class="pad-label">ápices</span></div>
+                        <div class="pad pad-light"><span class="pad-num">b</span><span class="pad-label">re(s)ets</span></div>
+                        <div class="pad pad-rec"><span class="pad-num">●</span><span class="pad-label">rec</span></div>
+                        <div class="pad pad-light"><span class="pad-num">c</span><span class="pad-label">mesa</span></div>
+                    </div>
+
+                    <!-- Left fader & right knob -->
+                    <div class="device-fader" aria-hidden="true">
+                        <span class="fader-label">vol</span>
+                        <div class="fader-track"><span class="fader-handle"></span></div>
+                    </div>
+
+                    <div class="device-knob" aria-hidden="true">
+                        <span class="knob-label">tempo</span>
+                        <div class="knob-dial"><span class="knob-tick"></span></div>
+                        <span class="knob-val">88 bpm</span>
+                    </div>
+                </aside>
             </div>
         </section>
 
-        <!-- Que es APICCA -->
+        <!-- QUE ES APICCA -->
         <section class="about-section">
             <div class="about-content">
-                <h2 class="section-title">QUE ES APICCA·COMÚN</h2>
-                <p class="about-text">En APICCA se prototipan <strong>Ápices</strong> relacionados con los cinco ejes de
-                    autonomia comun. <br />Con el <strong>Re(s)etario</strong>
-                    compartimos
-                    ideas de Reset para reiniciar procesos de autonomias comunes. <br />Estos resets nos ayudan a
-                    preparar
+                <p class="section-eyebrow">// manifiesto <span class="count">00</span></p>
+                <h2 class="section-title">qué es apicca·común</h2>
+                <p class="about-text">
+                    En APICCA se prototipan <strong>Ápices</strong> relacionados con los cinco ejes de
+                    autonomía común. Con el <strong>Re(s)etario</strong> compartimos ideas de Reset
+                    para reiniciar procesos de autonomías comunes. Estos resets nos ayudan a preparar
                     <strong>la mesa común</strong> que prototipamos.
                 </p>
 
+                <p class="section-eyebrow">// rack · 5 ejes <span class="count">05</span></p>
+
                 <div class="ejes-grid">
-                    <div class="eje-card" style="border-left-color: var(--eje-agua)">
-                        <h3>Agua</h3>
-                        <p>Acceso compartido a fuentes, sistemas comunitarios de gestion del agua.</p>
-                    </div>
-                    <div class="eje-card" style="border-left-color: var(--eje-alimento)">
-                        <h3>Alimento</h3>
-                        <p>Produccion local de alimentos, redes de economia reciproca.</p>
-                    </div>
-                    <div class="eje-card" style="border-left-color: var(--eje-cobijo)">
-                        <h3>Cobijo</h3>
-                        <p>Vivienda cooperativa, autoconstruccion colectiva, proteccion.</p>
-                    </div>
-                    <div class="eje-card" style="border-left-color: var(--eje-energia)">
-                        <h3>Energia</h3>
-                        <p>Sistemas renovables compartidos, control distribuido de la energia.</p>
-                    </div>
-                    <div class="eje-card" style="border-left-color: var(--eje-comunicacion)">
-                        <h3>Comunicacion</h3>
-                        <p>Herramientas conviviales, redes autonomas de coordinacion colectiva.</p>
-                    </div>
+
+                    <article class="eje-card" data-eje="agua">
+                        <header class="faceplate">
+                            <span class="serial">a-01 · agua</span>
+                            <span class="led" aria-hidden="true"></span>
+                            <span class="pictogram" aria-hidden="true">
+                                <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M24 6c-7 9-12 15-12 22a12 12 0 0 0 24 0c0-7-5-13-12-22z"/>
+                                    <path d="M18 30c1 3 3 5 6 5"/>
+                                </svg>
+                            </span>
+                        </header>
+                        <div class="body">
+                            <h3>agua</h3>
+                            <p>Acceso compartido a fuentes, sistemas comunitarios de gestión del agua.</p>
+                            <div class="module-tag"><span>módulo · activo</span></div>
+                        </div>
+                    </article>
+
+                    <article class="eje-card" data-eje="alimento">
+                        <header class="faceplate">
+                            <span class="serial">al-02 · alimento</span>
+                            <span class="led" aria-hidden="true"></span>
+                            <span class="pictogram" aria-hidden="true">
+                                <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M24 6v36"/>
+                                    <path d="M24 14c-5 0-8 3-8 8 5 0 8-3 8-8z"/>
+                                    <path d="M24 14c5 0 8 3 8 8-5 0-8-3-8-8z"/>
+                                    <path d="M24 24c-5 0-8 3-8 8 5 0 8-3 8-8z"/>
+                                    <path d="M24 24c5 0 8 3 8 8-5 0-8-3-8-8z"/>
+                                </svg>
+                            </span>
+                        </header>
+                        <div class="body">
+                            <h3>alimento</h3>
+                            <p>Producción local, soberanía alimentaria y redes de economía recíproca.</p>
+                            <div class="module-tag"><span>módulo · activo</span></div>
+                        </div>
+                    </article>
+
+                    <article class="eje-card" data-eje="cobijo">
+                        <header class="faceplate">
+                            <span class="serial">co-03 · cobijo</span>
+                            <span class="led" aria-hidden="true"></span>
+                            <span class="pictogram" aria-hidden="true">
+                                <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 24l16-14 16 14"/>
+                                    <path d="M12 22v18h24V22"/>
+                                    <path d="M20 40v-8h8v8"/>
+                                </svg>
+                            </span>
+                        </header>
+                        <div class="body">
+                            <h3>cobijo</h3>
+                            <p>Vivienda cooperativa, autoconstrucción colectiva, protección compartida.</p>
+                            <div class="module-tag"><span>módulo · activo</span></div>
+                        </div>
+                    </article>
+
+                    <article class="eje-card" data-eje="energia">
+                        <header class="faceplate">
+                            <span class="serial">en-04 · energía</span>
+                            <span class="led" aria-hidden="true"></span>
+                            <span class="pictogram" aria-hidden="true">
+                                <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M28 4L10 28h10l-4 16 22-26H28l4-14z"/>
+                                </svg>
+                            </span>
+                        </header>
+                        <div class="body">
+                            <h3>energía</h3>
+                            <p>Sistemas renovables compartidos y control distribuido de la energía.</p>
+                            <div class="module-tag"><span>módulo · activo</span></div>
+                        </div>
+                    </article>
+
+                    <article class="eje-card" data-eje="comunicacion">
+                        <header class="faceplate">
+                            <span class="serial">cm-05 · comunicación</span>
+                            <span class="led" aria-hidden="true"></span>
+                            <span class="pictogram" aria-hidden="true">
+                                <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="24" cy="30" r="3"/>
+                                    <path d="M16 22a10 10 0 0 1 16 0"/>
+                                    <path d="M10 16a18 18 0 0 1 28 0"/>
+                                    <path d="M24 33v9"/>
+                                </svg>
+                            </span>
+                        </header>
+                        <div class="body">
+                            <h3>comunicación</h3>
+                            <p>Herramientas conviviales y redes autónomas de coordinación colectiva.</p>
+                            <div class="module-tag"><span>módulo · activo</span></div>
+                        </div>
+                    </article>
+
                 </div>
             </div>
         </section>
 
-        <!-- Conceptos clave -->
+        <!-- CONCEPTOS -->
         <section class="concepts-section">
+            <p class="section-eyebrow">// piezas <span class="count">03</span></p>
+            <h2 class="section-title">cómo se compone</h2>
+
             <div class="concepts-grid">
-                <div class="concept-card">
-                    <h3 class="concept-title">APICES</h3>
-                    <p>Modulos cubicos que se prototipan como hardware para agua, alimento, cobijo, energia y
-                        comunicacion.</p>
-                    <a href="/apices" class="concept-link">Explorar &rarr;</a>
-                </div>
-                <div class="concept-card">
-                    <h3 class="concept-title">RE(S)ETS</h3>
-                    <p>Reiniciar procesos de autonomías comunes. Con el Re(s)etario servimos la mesa común.
-                    </p>
-                    <a href="/resetario" class="concept-link">Crear un Re(s)et &rarr;</a>
-                </div>
-                <div class="concept-card">
-                    <h3 class="concept-title">MESA COMUN</h3>
-                    <p>Donde servimos la mesa común y prototipamos los presentes alternativos en encuentros colectivos.
-                    </p>
-                    <span class="concept-link" style="text-decoration: none; cursor: default; opacity: 0.6;">Próximamente</span>
-                </div>
+
+                <article class="concept-card" data-c="apices">
+                    <header class="top-strip">
+                        <span>ápices · hardware</span>
+                        <span class="led-mini" aria-hidden="true"></span>
+                    </header>
+                    <div class="inner">
+                        <h3 class="concept-title">ápices</h3>
+                        <p>Módulos cúbicos prototipados como hardware para agua, alimento, cobijo, energía y comunicación.</p>
+                        <a href="/apices" class="concept-link">explorar →</a>
+                    </div>
+                </article>
+
+                <article class="concept-card" data-c="resets">
+                    <header class="top-strip">
+                        <span>re(s)ets · software</span>
+                        <span class="led-mini" aria-hidden="true"></span>
+                    </header>
+                    <div class="inner">
+                        <h3 class="concept-title">re(s)ets</h3>
+                        <p>Reiniciar procesos de autonomías comunes. Con el Re(s)etario servimos la mesa común.</p>
+                        <a href="/resetario" class="concept-link">crear un re(s)et →</a>
+                    </div>
+                </article>
+
+                <article class="concept-card" data-c="mesa">
+                    <header class="top-strip">
+                        <span>mesa común · ritual</span>
+                        <span class="led-mini muted" aria-hidden="true"></span>
+                    </header>
+                    <div class="inner">
+                        <h3 class="concept-title">mesa común</h3>
+                        <p>Donde servimos la mesa común y prototipamos los presentes alternativos en encuentros colectivos.</p>
+                        <span class="concept-link" aria-disabled="true">próximamente</span>
+                    </div>
+                </article>
 
             </div>
         </section>
-
 
     </main>
 
     <footer>
         <div class="footer-content">
-            <span class="footer-text">Apoyan:</span>
+            <span class="footer-text">apoyan ·</span>
             <div class="supporters-logos">
                 <a href="https://manglerojo.org" target="_blank" rel="noopener noreferrer">
                     <img src="img/MangleRojo_logo.png" alt="MangleRojo ORG" class="supporter-logo-1">

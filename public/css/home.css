@@ -1,0 +1,1228 @@
+/* =========================================================
+   home.css — Home rediseñado con lenguaje visual Teenage
+   Engineering / EP-133 K.O. II. Chasis crema, pads negros,
+   display LCD, LEDs de color, fader y knob.
+   Scope estricto: body.te-home  (no afecta otras páginas).
+   ========================================================= */
+
+body.te-home {
+  /* paleta local — silver chassis (K.O. II) */
+  --cream: #dcdcdc;        /* fondo página — silver claro */
+  --cream-deep: #b8b8b8;   /* silver medio — sombras del chasis */
+  --bone: #ececec;         /* silver muy claro — superficies elevadas */
+  --panel: #d0d0d0;        /* silver del panel del aparato */
+  --ink: #141414;
+  --ink-soft: #2b2b2b;
+  --rule: #9c9c9c;
+
+  --te-orange: #ff5a00;
+  --te-yellow: #f5c500;
+  --te-red: #e53000;
+  --te-blue: #4598ff;
+  --te-green: #00b56b;
+
+  --pad-black: #1a1a1a;
+  --pad-black-edge: #050505;
+  --pad-light: #ececec;
+  --lcd-bg: #121310;
+  --lcd-text: #e8e2cc;
+  --lcd-grid: rgba(232, 226, 204, 0.06);
+
+  --m-agua: var(--te-blue);
+  --m-alimento: var(--te-green);
+  --m-cobijo: var(--te-yellow);
+  --m-energia: var(--te-red);
+  --m-comunic: var(--te-orange);
+
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: 'Rubik', system-ui, sans-serif;
+  /* textura de puntos sutil tipo chasis moldeado */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(20,20,20,0.06) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+body.te-home .home-main {
+  background: transparent;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+}
+
+/* ============================================================
+   NAV / TOPBAR — barra de estado tipo "OUTPUT / INPUT / SYNC"
+   ============================================================ */
+body.te-home .hero {
+  background: transparent;
+  padding: 0;
+  display: block;
+  position: relative;
+  min-height: 0;
+}
+
+body.te-home .hero-nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px 8px 18px;
+  border: 1.5px solid var(--ink);
+  background: var(--bone);
+  margin-bottom: 28px;
+  box-shadow: 3px 3px 0 var(--ink);
+  border-radius: 4px;
+}
+
+body.te-home .hero-nav::before {
+  content: "apicca·001  ▸  re(s)etario · economías recíprocas";
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-transform: lowercase;
+}
+
+body.te-home .menu-container {
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.te-home .menu-toggle { display: none; }
+
+body.te-home .menu-container nav {
+  position: static;
+  display: block;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border: 0;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  max-height: none;
+  width: auto;
+}
+
+body.te-home .menu-container nav ul {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-direction: row;
+}
+
+body.te-home .menu-container nav ul li { margin: 0; padding: 0; border: 0; }
+
+body.te-home .menu-container nav ul li a {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink);
+  padding: 7px 12px;
+  border-radius: 3px;
+  display: inline-block;
+  text-decoration: none;
+  transition: background 120ms ease, color 120ms ease;
+  border: 1.25px solid transparent;
+}
+
+body.te-home .menu-container nav ul li a:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* ============================================================
+   HERO LAYOUT
+   ============================================================ */
+body.te-home .hero-content {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 32px;
+  padding: 0;
+  align-items: stretch;
+  margin: 0 0 56px;
+  max-width: none;
+  width: 100%;
+  flex: none;
+}
+
+body.te-home .hero-copy {
+  min-width: 0;
+  padding-top: 8px;
+}
+
+body.te-home .hero-content::before { content: none; }
+
+body.te-home .hero-logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  text-decoration: none;
+}
+
+body.te-home .hero-logo-img {
+  height: 56px;
+  width: auto;
+  filter: none;
+}
+
+body.te-home .hero-logo-link::after {
+  content: "v0.2 · 2026";
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+body.te-home .hero-subtitle {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  text-transform: lowercase;
+  color: var(--ink);
+  max-width: 18ch;
+  margin: 0 0 32px;
+}
+
+body.te-home .hero-subtitle::after {
+  content: "·";
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--te-orange);
+}
+
+/* CTA tipo "function key" del aparato */
+body.te-home .hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+body.te-home .cta-primary,
+body.te-home .cta-secondary {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  padding: 14px 22px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1.5px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  position: relative;
+}
+
+body.te-home .cta-primary {
+  background: var(--te-orange);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+body.te-home .cta-secondary {
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+body.te-home .cta-primary::before,
+body.te-home .cta-secondary::before {
+  content: "▸";
+  font-family: inherit;
+  font-size: 11px;
+  display: inline-block;
+}
+
+body.te-home .cta-primary:hover,
+body.te-home .cta-secondary:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+body.te-home .cta-primary:active,
+body.te-home .cta-secondary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* ============================================================
+   DEVICE — chasis tipo K.O. II
+   ============================================================ */
+body.te-home .device {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--panel) 0%, var(--cream-deep) 100%);
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  box-shadow:
+    6px 6px 0 var(--ink),
+    inset 0 0 0 1px rgba(255,255,255,0.6),
+    inset 0 -3px 0 rgba(0,0,0,0.05);
+  padding: 16px 18px 18px;
+  display: grid;
+  grid-template-columns: 36px 1fr 60px;
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas:
+    "io      io      io"
+    "screen  screen  brand"
+    "fns     fns     fns"
+    "fader   pads    knob"
+    "fader   pads    knob";
+  gap: 12px 14px;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+/* tornillos en esquinas (detalle TE) */
+body.te-home .device::before,
+body.te-home .device::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #555, #1a1a1a 60%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+}
+body.te-home .device::before { top: 8px; left: 8px; }
+body.te-home .device::after { bottom: 8px; right: 8px; }
+
+/* ---------- I/O top bar ---------- */
+body.te-home .device-io {
+  grid-area: io;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1.25px dashed var(--rule);
+  flex-wrap: wrap;
+}
+
+body.te-home .io-pill {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  padding: 4px 9px 4px 16px;
+  border-radius: 3px;
+  border: 1.25px solid var(--ink);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  min-width: 18px;
+}
+
+body.te-home .io-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.18);
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+body.te-home .io-pill.is-on { background: var(--ink); color: var(--cream); }
+body.te-home .io-pill.is-on::before {
+  background: var(--te-red);
+  box-shadow: 0 0 6px var(--te-red);
+}
+
+body.te-home .io-pill:empty {
+  border: 0;
+  flex: 1;
+  min-width: 0;
+}
+body.te-home .io-pill:empty::before { content: none; }
+
+/* ---------- Display screen (LCD) ---------- */
+body.te-home .device-screen {
+  grid-area: screen;
+  background: var(--lcd-bg);
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 12px 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 96px;
+  box-shadow: inset 0 0 24px rgba(0,0,0,0.5);
+  background-image:
+    linear-gradient(var(--lcd-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lcd-grid) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+
+body.te-home .screen-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.7;
+}
+
+body.te-home .screen-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+body.te-home .screen-num {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 600;
+  font-size: 2.6rem;
+  letter-spacing: -0.02em;
+  color: var(--lcd-text);
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(232, 226, 204, 0.4);
+}
+
+body.te-home .screen-unit {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.65;
+}
+
+body.te-home .screen-rec {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--te-red);
+  box-shadow:
+    0 0 0 2px rgba(229,48,0,0.25),
+    0 0 14px rgba(229,48,0,0.7);
+  animation: te-led 2s ease-in-out infinite;
+}
+
+@keyframes te-led {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ---------- Brand block "K.O.II / サンプラー" ---------- */
+body.te-home .device-brand {
+  grid-area: brand;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: right;
+  padding-left: 6px;
+}
+
+body.te-home .brand-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+body.te-home .brand-name {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--ink);
+  line-height: 1;
+}
+
+body.te-home .brand-jp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--ink-soft);
+}
+
+body.te-home .brand-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 8px 0 0;
+  max-width: 14ch;
+  line-height: 1.4;
+}
+
+/* ---------- Function row (KEYS / FADER / EDIT / COPY...) ---------- */
+body.te-home .device-functions {
+  grid-area: fns;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+body.te-home .fn-key {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--pad-light);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  padding: 7px 4px;
+  text-align: center;
+  box-shadow: 0 2px 0 var(--ink), inset 0 -2px 0 rgba(0,0,0,0.08);
+}
+
+body.te-home .fn-key.is-active {
+  background: var(--te-orange);
+  color: var(--ink);
+}
+
+/* ---------- Pad grid ---------- */
+body.te-home .device-pads {
+  grid-area: pads;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 7px;
+  min-height: 240px;
+}
+
+body.te-home .pad {
+  position: relative;
+  background: var(--pad-black);
+  background-image: linear-gradient(180deg, #232323 0%, #0c0c0c 100%);
+  border: 1px solid var(--pad-black-edge);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 9px 7px;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 -3px 6px rgba(0,0,0,0.5);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+
+body.te-home .pad::before {
+  /* LED de color en esquina superior */
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+}
+
+body.te-home .pad[data-led="red"]::before {
+  background: var(--te-red);
+  box-shadow: 0 0 8px var(--te-red);
+}
+body.te-home .pad[data-led="green"]::before {
+  background: var(--te-green);
+  box-shadow: 0 0 8px var(--te-green);
+}
+body.te-home .pad[data-led="yellow"]::before {
+  background: var(--te-yellow);
+  box-shadow: 0 0 8px var(--te-yellow);
+}
+body.te-home .pad[data-led="orange"]::before {
+  background: var(--te-orange);
+  box-shadow: 0 0 8px var(--te-orange);
+}
+body.te-home .pad[data-led="blue"]::before {
+  background: var(--te-blue);
+  box-shadow: 0 0 8px var(--te-blue);
+}
+
+body.te-home .pad:hover {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -2px 6px rgba(0,0,0,0.5);
+}
+
+body.te-home .pad-num {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--lcd-text);
+  letter-spacing: -0.02em;
+  opacity: 0.95;
+}
+
+body.te-home .pad-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.7;
+  align-self: stretch;
+  text-align: left;
+}
+
+body.te-home .pad-muted {
+  background-image: linear-gradient(180deg, #1d1d1d 0%, #0a0a0a 100%);
+}
+body.te-home .pad-muted .pad-num,
+body.te-home .pad-muted .pad-label { opacity: 0.45; }
+
+body.te-home .pad-light {
+  background-image: linear-gradient(180deg, #f0f0f0 0%, #bababa 100%);
+  border-color: rgba(0,0,0,0.35);
+}
+body.te-home .pad-light .pad-num,
+body.te-home .pad-light .pad-label { color: var(--ink); opacity: 0.85; }
+
+body.te-home .pad-rec {
+  background-image:
+    radial-gradient(circle at 50% 45%, #ff5a00 0%, #d12a00 60%, #8a1a00 100%);
+  border-color: rgba(0,0,0,0.55);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+body.te-home .pad-rec .pad-num {
+  font-size: 1.3rem;
+  color: #fff;
+  opacity: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+body.te-home .pad-rec .pad-label {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  opacity: 0.85;
+  letter-spacing: 0.2em;
+}
+body.te-home .pad-rec::before { content: none; }
+
+/* ---------- Fader (izquierda) ---------- */
+body.te-home .device-fader {
+  grid-area: fader;
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  border-radius: 6px;
+  padding: 10px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+
+body.te-home .fader-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body.te-home .fader-track {
+  flex: 1;
+  width: 4px;
+  background: var(--ink);
+  border-radius: 2px;
+  position: relative;
+  margin: 4px 0;
+  min-height: 80px;
+}
+
+body.te-home .fader-handle {
+  position: absolute;
+  left: 50%;
+  top: 32%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 14px;
+  background: linear-gradient(180deg, #ececec 0%, #a8a8a8 100%);
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.4);
+}
+body.te-home .fader-handle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 1.5px;
+  background: var(--ink);
+}
+
+/* ---------- Knob (derecha) ---------- */
+body.te-home .device-knob {
+  grid-area: knob;
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  border-radius: 6px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+
+body.te-home .knob-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body.te-home .knob-dial {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #f0f0f0 0%, #a0a0a0 70%, #555555 100%);
+  border: 1.5px solid var(--ink);
+  position: relative;
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+body.te-home .knob-tick {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5px;
+  height: 9px;
+  background: var(--ink);
+  border-radius: 1px;
+}
+
+body.te-home .knob-val {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--lcd-bg);
+  color: var(--lcd-text);
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   SECTION HEADERS (terminal-like)
+   ============================================================ */
+body.te-home .section-eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body.te-home .section-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  display: inline-block;
+}
+
+body.te-home .section-eyebrow .count {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+body.te-home .section-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  letter-spacing: -0.018em;
+  text-transform: lowercase;
+  margin: 0 0 28px;
+  color: var(--ink);
+}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+body.te-home .about-section {
+  background: transparent;
+  padding: 56px 0 64px;
+  margin: 0;
+  border-top: 1.5px dashed var(--rule);
+}
+
+body.te-home .about-content {
+  max-width: none;
+  padding: 0;
+}
+
+body.te-home .about-text {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  max-width: 62ch;
+  margin-bottom: 44px;
+  color: var(--ink-soft);
+}
+
+body.te-home .about-text strong {
+  color: var(--ink);
+  font-weight: 700;
+  background: var(--te-yellow);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   EJES GRID — cada card es un "módulo" tipo pad K.O. II
+   Faceplate negra con LED de color + pictograma blanco.
+   ============================================================ */
+body.te-home .ejes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+
+body.te-home .eje-card {
+  position: relative;
+  background: var(--bone);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0;
+  border-left: 1.5px solid var(--ink) !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: te-rise 460ms cubic-bezier(.2,.7,.2,1) forwards;
+}
+
+body.te-home .eje-card:nth-child(1) { animation-delay: 0.05s; }
+body.te-home .eje-card:nth-child(2) { animation-delay: 0.10s; }
+body.te-home .eje-card:nth-child(3) { animation-delay: 0.15s; }
+body.te-home .eje-card:nth-child(4) { animation-delay: 0.20s; }
+body.te-home .eje-card:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes te-rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body.te-home .eje-card:hover {
+  transform: translate(-2px, -3px);
+  box-shadow: 6px 7px 0 var(--ink);
+}
+
+/* faceplate negra estilo pad — LED de color en la esquina */
+body.te-home .eje-card .faceplate {
+  background: var(--pad-black);
+  background-image: linear-gradient(180deg, #232323 0%, #0d0d0d 100%);
+  padding: 14px 14px 12px;
+  border-bottom: 1.5px solid var(--ink);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 130px;
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,0.5);
+}
+
+body.te-home .eje-card .faceplate .serial {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  background: rgba(255,255,255,0.06);
+  padding: 3px 7px;
+  border-radius: 3px;
+  align-self: flex-start;
+  border: 1px solid rgba(255,255,255,0.15);
+  opacity: 0.85;
+}
+
+/* LED de color por eje */
+body.te-home .eje-card .faceplate .led {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--m-color, var(--te-orange));
+  border: 1px solid rgba(0,0,0,0.6);
+  box-shadow:
+    0 0 10px var(--m-color, var(--te-orange)),
+    0 0 0 2px rgba(0,0,0,0.4);
+  animation: te-led 2.6s ease-in-out infinite;
+}
+
+body.te-home .eje-card .faceplate .pictogram {
+  width: 48px;
+  height: 48px;
+  align-self: flex-end;
+  margin-top: auto;
+  color: var(--lcd-text);
+  opacity: 0.92;
+}
+
+body.te-home .eje-card .faceplate .pictogram svg {
+  width: 100%;
+  height: 100%;
+}
+/* iconos en blanco sobre el pad negro */
+body.te-home .eje-card .faceplate .pictogram svg path,
+body.te-home .eje-card .faceplate .pictogram svg circle {
+  stroke: var(--lcd-text) !important;
+}
+
+body.te-home .eje-card[data-eje="agua"] { --m-color: var(--m-agua); }
+body.te-home .eje-card[data-eje="alimento"] { --m-color: var(--m-alimento); }
+body.te-home .eje-card[data-eje="cobijo"] { --m-color: var(--m-cobijo); }
+body.te-home .eje-card[data-eje="energia"] { --m-color: var(--m-energia); }
+body.te-home .eje-card[data-eje="comunicacion"] { --m-color: var(--m-comunic); }
+
+/* franja de color delgada bajo la faceplate (acento del módulo) */
+body.te-home .eje-card .faceplate::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 4px;
+  background: var(--m-color, var(--ink));
+}
+
+body.te-home .eje-card .body {
+  padding: 16px 14px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bone);
+}
+
+body.te-home .eje-card h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+body.te-home .eje-card p {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+body.te-home .eje-card .module-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1.25px dashed var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.te-home .eje-card .module-tag::after {
+  content: "ok";
+  background: var(--ink);
+  color: var(--cream);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+/* ============================================================
+   CONCEPTOS (3 módulos)
+   ============================================================ */
+body.te-home .concepts-section {
+  background: transparent;
+  padding: 56px 0 0;
+  border-top: 1.5px dashed var(--rule);
+  margin-top: 56px;
+}
+
+body.te-home .concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 0;
+  max-width: none;
+}
+
+body.te-home .concept-card {
+  background: var(--bone);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 0;
+  text-align: left;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 280px;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+body.te-home .concept-card:hover {
+  transform: translate(-2px, -3px);
+  box-shadow: 7px 8px 0 var(--ink);
+}
+
+body.te-home .concept-card[data-c="apices"] { --c-color: var(--te-blue); }
+body.te-home .concept-card[data-c="resets"] { --c-color: var(--te-orange); }
+body.te-home .concept-card[data-c="mesa"] { --c-color: var(--te-yellow); }
+
+body.te-home .concept-card .top-strip {
+  background: var(--ink);
+  padding: 9px 14px;
+  border-bottom: 1.5px solid var(--ink);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+body.te-home .concept-card .top-strip::after {
+  /* franja de color como acento del módulo */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 4px;
+  background: var(--c-color, var(--ink));
+}
+
+body.te-home .concept-card .top-strip .led-mini {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-color, var(--te-orange));
+  display: inline-block;
+  box-shadow: 0 0 6px var(--c-color, var(--te-orange));
+}
+
+body.te-home .concept-card .top-strip .led-mini.muted {
+  background: rgba(255,255,255,0.25);
+  box-shadow: none;
+}
+
+body.te-home .concept-card .inner {
+  padding: 22px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+body.te-home .concept-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+body.te-home .concept-card p {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+body.te-home .concept-link {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink);
+  text-decoration: none;
+  margin-top: auto;
+  padding: 11px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  background: var(--cream);
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+body.te-home .concept-link:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+}
+
+body.te-home .concept-link[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+body.te-home footer {
+  background: transparent;
+  border-top: 1.5px dashed var(--rule);
+  padding: 32px 28px 24px;
+  margin-top: 64px;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.te-home .footer-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+body.te-home .footer-text {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body.te-home .supporters-logos {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+body.te-home .supporters-logos img {
+  height: 36px;
+  width: auto;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.8;
+  transition: opacity 120ms ease, filter 120ms ease;
+}
+
+body.te-home .supporters-logos a:hover img {
+  filter: none;
+  opacity: 1;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  body.te-home .ejes-grid { grid-template-columns: repeat(3, 1fr); }
+  body.te-home .ejes-grid > :nth-child(4),
+  body.te-home .ejes-grid > :nth-child(5) { grid-column: span 1; }
+  body.te-home .device { grid-template-columns: 30px 1fr 54px; }
+}
+
+@media (max-width: 880px) {
+  body.te-home .hero-content { grid-template-columns: 1fr; }
+  body.te-home .device { min-height: 0; }
+  body.te-home .concepts-grid { grid-template-columns: 1fr; }
+  body.te-home .ejes-grid { grid-template-columns: repeat(2, 1fr); }
+  body.te-home .hero-nav::before {
+    content: "apicca·001";
+  }
+}
+
+@media (max-width: 540px) {
+  body.te-home .home-main { padding: 18px 16px 60px; }
+  body.te-home .ejes-grid { grid-template-columns: 1fr; }
+  body.te-home .hero-subtitle { font-size: 2.4rem; }
+  body.te-home .menu-container nav ul { gap: 0; }
+  body.te-home .menu-container nav ul li a { padding: 8px 10px; }
+  body.te-home .device {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "io"
+      "screen"
+      "brand"
+      "fns"
+      "pads"
+      "fader"
+      "knob";
+  }
+  body.te-home .device-fader,
+  body.te-home .device-knob {
+    flex-direction: row;
+    min-height: 60px;
+  }
+  body.te-home .fader-track { width: auto; height: 4px; flex: 1; }
+  body.te-home .fader-handle { top: 50%; left: 32%; transform: translateY(-50%); }
+  body.te-home .device-functions { grid-template-columns: repeat(4, 1fr); }
+}
