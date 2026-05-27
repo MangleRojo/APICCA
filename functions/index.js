@@ -16,7 +16,7 @@ const {defineSecret} = require("firebase-functions/params");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
 
-// Inicializar Admin SDK una sola vez (necesario para verificar tokens de App Check).
+// Inicializar Admin SDK una sola vez (para verificar tokens de App Check).
 if (!admin.apps.length) admin.initializeApp();
 
 // Secrets gestionados por Firebase (en producción se leen desde Secret Manager;
