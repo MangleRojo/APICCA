@@ -1,5 +1,5 @@
 export class DotsBackground {
-    constructor(containerId, imageUrl = 'img/fondo_dots.jpg') {
+    constructor(containerId, imageUrl = '/img/fondo_dots.jpg') {
         this.container = typeof containerId === 'string' ? document.getElementById(containerId) : containerId;
         if (!this.container) return;
 
@@ -41,7 +41,7 @@ export class DotsBackground {
         this.canvas.style.width = '100%';
         this.canvas.style.height = '100%';
         this.canvas.style.pointerEvents = 'none'; 
-        this.canvas.style.zIndex = '5'; 
+        this.canvas.style.zIndex = '0'; 
 
         // Load image first
         this.image.onload = () => {
@@ -85,7 +85,7 @@ export class DotsBackground {
         this.canvas.style.left = '0';
         this.canvas.style.width = '100%';
         this.canvas.style.height = '100%';
-        this.canvas.style.zIndex = '5';
+        this.canvas.style.zIndex = '0';
         this.canvas.style.pointerEvents = 'none';
         
         if (this.imageLoaded) {
@@ -207,7 +207,7 @@ export class DotsBackground {
 
         this.ctx.clearRect(0, 0, this.width, this.height);
         // Use a dark grey with slight transparency for better blending
-        this.ctx.fillStyle = 'rgba(30, 30, 30, 0.85)'; 
+        this.ctx.fillStyle = 'rgba(28, 28, 28, 0.55)'; 
         
         const now = Date.now();
 

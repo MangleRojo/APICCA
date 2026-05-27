@@ -1,3 +1,5 @@
+import { printer } from './printer-pos.js';
+
 // Cliente frontend para hablar con la Firebase Function `callGemini`
 // sin exponer la API key de Gemini en el navegador.
 
@@ -84,6 +86,77 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitButton = document.querySelector(".tp7-submit-button");
   const escButton = document.getElementById("resetario-ai-esc");
 
+  // Botón y controles de impresión
+  const connectPrinterBtn = document.getElementById("printer-connect-btn");
+  const reprintBtn = document.getElementById("printer-reprint-btn");
+  const printerStatusEl = document.getElementById("printer-status");
+  const paperSizeSelect = document.getElementById("printer-paper-size");
+
+  function updatePrinterButtons() {
+    if (!connectPrinterBtn || !reprintBtn) return;
+    
+    if (printer.isConnected) {
+      connectPrinterBtn.textContent = "Desconectar Impresora";
+      printerStatusEl.textContent = "Conectada";
+      printerStatusEl.className = "printer-status status-connected";
+      reprintBtn.disabled = !state.lastPrintData;
+    } else {
+      connectPrinterBtn.textContent = "Conectar Impresora";
+      printerStatusEl.textContent = "Desconectada";
+      printerStatusEl.className = "printer-status status-disconnected";
+      reprintBtn.disabled = true;
+    }
+  }
+
+  if (connectPrinterBtn) {
+    connectPrinterBtn.addEventListener("click", async () => {
+      try {
+        if (printer.isConnected) {
+          await printer.disconnect();
+        } else {
+          connectPrinterBtn.disabled = true;
+          connectPrinterBtn.textContent = "Buscando...";
+          await printer.connect();
+          connectPrinterBtn.disabled = false;
+        }
+        updatePrinterButtons();
+      } catch (err) {
+        console.error(err);
+        alert("Error al conectar con la impresora. Aseg\u00farsate de que Bluetooth est\u00e1 activado y la impresora est\u00e1 en modo emparejamiento.");
+        connectPrinterBtn.disabled = false;
+        updatePrinterButtons();
+        printerStatusEl.textContent = "Error";
+        printerStatusEl.className = "printer-status status-error";
+      }
+    });
+  }
+
+  if (reprintBtn) {
+    reprintBtn.addEventListener("click", async () => {
+      if (state.lastPrintData && printer.isConnected) {
+        try {
+          reprintBtn.disabled = true;
+          reprintBtn.textContent = "Imprimiendo...";
+          await printer.printReset(state.lastPrintData);
+        } catch (err) {
+          console.error(err);
+          alert("Error al volver a imprimir.");
+        } finally {
+          reprintBtn.disabled = false;
+          reprintBtn.textContent = "Volver a imprimir";
+        }
+      }
+    });
+  }
+
+  if (paperSizeSelect) {
+    paperSizeSelect.addEventListener("change", (e) => {
+      printer.setPaperSize(e.target.value);
+    });
+  }
+
+  updatePrinterButtons();
+
   // ========== Estado centralizado ==========
   const state = {
     currentEjeKey: null,
@@ -91,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedGlyphCards: [],
     currentTacticIndex: 0,
     currentDimensions: [],
+    lastPrintData: null,
     cardsData: null,
     colorMeanings: null,
     audioContext: null,
@@ -269,10 +343,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="resetario-ai-loading">
               <div class="loading-spinner"></div>
             </div>
-         </div>`
+          </div>`
       : `<div class="resetario-section-content">
             <p class="resetario-output-text">${sanitizeGeminiHtml(text)}</p>
-         </div>`;
+          </div>`;
 
     const bodyHtml = `
       <div class="resetario-sections">
@@ -321,8 +395,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!loading) {
       responseTextEl.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+      
+      // DISPARAR IMPRESIÓN AUTOMÁTICA SI ESTÁ CONECTADO
+      const printData = {
+        text: text,
+        tactics: state.selectedGlyphCards.map(c => ({
+          eje: EJE_LABELS[c.ejeKey] || c.ejeKey,
+          title: c.title
+        })),
+        dimensions: state.currentDimensions,
+        hash: hash
+      };
+      
+      state.lastPrintData = printData;
+      updatePrinterButtons();
 
+      if (printer.isConnected) {
+        printer.printReset(printData).catch(err => {
+          console.error("Error al imprimir:", err);
+          statusEl.textContent = "Error al imprimir. Revisa la conexi\u00f3n.";
+        });
+      }
+    }
     return hash;
   }
 
@@ -768,7 +862,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const hash = renderResetarioOutput({ text, cardInfo, loading: false });
 
-      // Guardar reset en Firestore
+      // Guardar reset en Firestore (versión original sin modificaciones para POS)
       saveReset({
         hash: hash,
         text: text,

@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APICCA COMÚN</title>
-    
+    <title>APICCA COMUN</title>
+
     <!-- Meta tags para SEO -->
-    <meta name="description" content="APICCA COMÚN - Arte, Pedagogía e Innovación Común">
-    
+    <meta name="description"
+        content="APICCA COMUN — API para Crear y Conectar Autonomias Comunes. Iniciativa abierta de apoyo reciproco.">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://apicca.com/">
-    <meta property="og:title" content="APICCA COMÚN">
-    <meta property="og:description" content="API para Crear y Conectar Autonomías Comunes">
+    <meta property="og:title" content="APICCA COMUN">
+    <meta property="og:description" content="API para Crear y Conectar Autonomias Comunes">
     <meta property="og:image" content="https://apicca.com/img/social-share.jpg">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://apicca.com/">
-    <meta property="twitter:title" content="APICCA COMÚN">
-    <meta property="twitter:description" content="API para Crear y Conectar Autonomías Comunes">
+    <meta property="twitter:title" content="APICCA COMUN">
+    <meta property="twitter:description" content="API para Crear y Conectar Autonomias Comunes">
     <meta property="twitter:image" content="https://apicca.com/img/social-share.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,46 +31,115 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="img/favicon_io/site.webmanifest">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/matrix.css"> 
 </head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="index.html">
-                <img src="img/apicca_logo.png" alt="apicca logo" class="logo-img">
-            </a>
-        </div>
-        <div class="menu-container">
-            <button class="menu-toggle" aria-label="Menú">
-                <span class="menu-bar"></span>
-                <span class="menu-bar"></span>
-                <span class="menu-bar"></span>
-            </button>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="resetario.html">Re(s)etario</a>
-                        <ul>
-                            <li><a href="resetario/documentacion.html">Documentación</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <main>
-        <div class="art-container">
-            <img src="img/matrioz.png" alt="Arte Matriz" class="main-art">
-            <img src="img/glyph/glyph_00.png" alt="Glifo Azul" class="glyph glyph-blue">
-            <img src="img/glyph/glyph_01.png" alt="Glifo Rojo" class="glyph glyph-red">
-        </div>
+<body>
+    <main class="home-main">
+        <!-- Hero Section — sin header, nav integrado -->
+        <section class="hero">
+            <!-- Navegación dentro del Hero -->
+            <div class="hero-nav">
+                <div class="menu-container">
+                    <button class="menu-toggle" aria-label="Menu">
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                    </button>
+                    <nav>
+                        <ul>
+                            <li><a href="/apices">Ápices</a></li>
+                            <li><a href="/resetario">Re(s)etario</a></li>
+
+                            <li><a href="/contacto">Contacto</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <!-- Logo en lugar del título de texto -->
+                <a href="/" class="hero-logo-link">
+                    <img src="img/apicca_logo.png" alt="APICCA COMUN" class="hero-logo-img">
+                </a>
+                <p class="hero-subtitle">API para Crear y Conectar Autonomias Comunes</p>
+                <div class="hero-cta">
+                    <a href="/resetario" class="cta-primary">explorar el re(s)etario</a>
+                    <a href="/apices" class="cta-secondary">ver ápices</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="img/matrioz.png" alt="APICCA Matriz" class="hero-art">
+            </div>
+        </section>
+
+        <!-- Que es APICCA -->
+        <section class="about-section">
+            <div class="about-content">
+                <h2 class="section-title">QUE ES APICCA·COMÚN</h2>
+                <p class="about-text">En APICCA se prototipan <strong>Ápices</strong> relacionados con los cinco ejes de
+                    autonomia comun. <br />Con el <strong>Re(s)etario</strong>
+                    compartimos
+                    ideas de Reset para reiniciar procesos de autonomias comunes. <br />Estos resets nos ayudan a
+                    preparar
+                    <strong>la mesa común</strong> que prototipamos.
+                </p>
+
+                <div class="ejes-grid">
+                    <div class="eje-card" style="border-left-color: var(--eje-agua)">
+                        <h3>Agua</h3>
+                        <p>Acceso compartido a fuentes, sistemas comunitarios de gestion del agua.</p>
+                    </div>
+                    <div class="eje-card" style="border-left-color: var(--eje-alimento)">
+                        <h3>Alimento</h3>
+                        <p>Produccion local de alimentos, redes de economia reciproca.</p>
+                    </div>
+                    <div class="eje-card" style="border-left-color: var(--eje-cobijo)">
+                        <h3>Cobijo</h3>
+                        <p>Vivienda cooperativa, autoconstruccion colectiva, proteccion.</p>
+                    </div>
+                    <div class="eje-card" style="border-left-color: var(--eje-energia)">
+                        <h3>Energia</h3>
+                        <p>Sistemas renovables compartidos, control distribuido de la energia.</p>
+                    </div>
+                    <div class="eje-card" style="border-left-color: var(--eje-comunicacion)">
+                        <h3>Comunicacion</h3>
+                        <p>Herramientas conviviales, redes autonomas de coordinacion colectiva.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conceptos clave -->
+        <section class="concepts-section">
+            <div class="concepts-grid">
+                <div class="concept-card">
+                    <h3 class="concept-title">APICES</h3>
+                    <p>Modulos cubicos que se prototipan como hardware para agua, alimento, cobijo, energia y
+                        comunicacion.</p>
+                    <a href="/apices" class="concept-link">Explorar &rarr;</a>
+                </div>
+                <div class="concept-card">
+                    <h3 class="concept-title">RE(S)ETS</h3>
+                    <p>Reiniciar procesos de autonomías comunes. Con el Re(s)etario servimos la mesa común.
+                    </p>
+                    <a href="/resetario" class="concept-link">Crear un Re(s)et &rarr;</a>
+                </div>
+                <div class="concept-card">
+                    <h3 class="concept-title">MESA COMUN</h3>
+                    <p>Donde servimos la mesa común y prototipamos los presentes alternativos en encuentros colectivos.
+                    </p>
+                    <span class="concept-link" style="text-decoration: none; cursor: default; opacity: 0.6;">Próximamente</span>
+                </div>
+
+            </div>
+        </section>
+
+
     </main>
 
     <footer>
         <div class="footer-content">
-            <span class="footer-text">Impulsan:</span>
+            <span class="footer-text">Apoyan:</span>
             <div class="supporters-logos">
                 <a href="https://manglerojo.org" target="_blank" rel="noopener noreferrer">
                     <img src="img/MangleRojo_logo.png" alt="MangleRojo ORG" class="supporter-logo-1">
@@ -82,5 +153,5 @@
 
     <script type="module" src="js/scripts.js"></script>
 </body>
-</html>
 
+</html>

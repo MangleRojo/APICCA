@@ -1,0 +1,29 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Lectura pública para apices
+    match /apices/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // Resets: lectura pública; solo creación con validación de campos.
+    // update y delete bloqueados — los resets son inmutables una vez creados.
+    match /resets/{resetId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['hash', 'text', 'tactics', 'dimensions', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['hash', 'text', 'tactics', 'dimensions', 'createdAt'])
+        && request.resource.data.hash is string
+        && request.resource.data.hash.size() <= 64
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 10000
+        && request.resource.data.tactics is list
+        && request.resource.data.tactics.size() <= 3
+        && request.resource.data.dimensions is list
+        && request.resource.data.dimensions.size() <= 3
+        && request.resource.data.createdAt is string;
+      allow update, delete: if false;
+    }
+  }
+}

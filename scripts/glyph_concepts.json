@@ -1,0 +1,330 @@
+{
+    "metadata": {
+        "title": "Conceptos Base de Glyphs - Re(s)etario",
+        "description": "Definición de los 32 glyphs como tácticas de economía recíproca",
+        "version": "0.1",
+        "lastUpdated": "2025-11-25"
+    },
+    "glyphConcepts": {
+        "00": {
+            "name": "Inicio",
+            "concept": "El comienzo de toda acción colectiva",
+            "keywords": [
+                "comienzo",
+                "semilla",
+                "activación",
+                "primer paso"
+            ]
+        },
+        "01": {
+            "name": "Flujo",
+            "concept": "El movimiento y circulación de recursos",
+            "keywords": [
+                "circulación",
+                "movimiento",
+                "fluir",
+                "intercambio"
+            ]
+        },
+        "02": {
+            "name": "Cultivo",
+            "concept": "El cuidado y desarrollo de lo común",
+            "keywords": [
+                "cuidado",
+                "nurtura",
+                "crecer",
+                "cultivar"
+            ]
+        },
+        "03": {
+            "name": "Refugio",
+            "concept": "El espacio seguro de acogida",
+            "keywords": [
+                "acogida",
+                "protección",
+                "espacio",
+                "seguridad"
+            ]
+        },
+        "04": {
+            "name": "Red",
+            "concept": "La conexión entre muchos nodos",
+            "keywords": [
+                "conexión",
+                "enlace",
+                "tejido",
+                "vínculos"
+            ]
+        },
+        "05": {
+            "name": "Transformación",
+            "concept": "El cambio y la metamorfosis colectiva",
+            "keywords": [
+                "cambio",
+                "mutar",
+                "evolución",
+                "transición"
+            ]
+        },
+        "06": {
+            "name": "Cosecha",
+            "concept": "El resultado compartido del trabajo común",
+            "keywords": [
+                "resultado",
+                "frutos",
+                "compartir",
+                "distribución"
+            ]
+        },
+        "07": {
+            "name": "Ciclo",
+            "concept": "La repetición regenerativa",
+            "keywords": [
+                "regeneración",
+                "ciclo",
+                "renovación",
+                "recurrencia"
+            ]
+        },
+        "08": {
+            "name": "Encuentro",
+            "concept": "El espacio de confluencia y diálogo",
+            "keywords": [
+                "convergencia",
+                "reunión",
+                "asamblea",
+                "confluir"
+            ]
+        },
+        "09": {
+            "name": "Balance",
+            "concept": "El equilibrio entre dar y recibir",
+            "keywords": [
+                "equilibrio",
+                "reciprocidad",
+                "simetría",
+                "compensación"
+            ]
+        },
+        "10": {
+            "name": "Impulso",
+            "concept": "La energía que moviliza la acción",
+            "keywords": [
+                "impulsar",
+                "activar",
+                "energizar",
+                "mover"
+            ]
+        },
+        "11": {
+            "name": "Arraigo",
+            "concept": "La conexión con el territorio",
+            "keywords": [
+                "territorio",
+                "lugar",
+                "pertenencia",
+                "raíz"
+            ]
+        },
+        "12": {
+            "name": "Fuente",
+            "concept": "El origen de los recursos comunes",
+            "keywords": [
+                "origen",
+                "manantial",
+                "provisión",
+                "abundancia"
+            ]
+        },
+        "13": {
+            "name": "Transmisión",
+            "concept": "El paso de saberes y recursos",
+            "keywords": [
+                "compartir",
+                "enseñar",
+                "heredar",
+                "transmitir"
+            ]
+        },
+        "14": {
+            "name": "Resguardo",
+            "concept": "La protección y conservación",
+            "keywords": [
+                "conservar",
+                "proteger",
+                "salvaguardar",
+                "reservar"
+            ]
+        },
+        "15": {
+            "name": "Activación",
+            "concept": "El despertar de potencialidades",
+            "keywords": [
+                "despertar",
+                "activar",
+                "potenciar",
+                "habilitar"
+            ]
+        },
+        "16": {
+            "name": "Siembra",
+            "concept": "La inversión para el futuro común",
+            "keywords": [
+                "plantar",
+                "proyectar",
+                "futuro",
+                "sembrar"
+            ]
+        },
+        "17": {
+            "name": "Filtración",
+            "concept": "La purificación y discernimiento",
+            "keywords": [
+                "purificar",
+                "filtrar",
+                "limpiar",
+                "discernir"
+            ]
+        },
+        "18": {
+            "name": "Código",
+            "concept": "Las reglas compartidas de convivencia",
+            "keywords": [
+                "normas",
+                "acuerdos",
+                "protocolo",
+                "reglas"
+            ]
+        },
+        "19": {
+            "name": "Techo",
+            "concept": "La cobertura y protección colectiva",
+            "keywords": [
+                "cubrir",
+                "cobijar",
+                "resguardar",
+                "proteger"
+            ]
+        },
+        "20": {
+            "name": "Chispa",
+            "concept": "El inicio de la transformación energética",
+            "keywords": [
+                "ignición",
+                "inicio",
+                "detonar",
+                "encender"
+            ]
+        },
+        "21": {
+            "name": "Fermentación",
+            "concept": "La transformación lenta y nutritiva",
+            "keywords": [
+                "transformar",
+                "fermentar",
+                "procesar",
+                "madurar"
+            ]
+        },
+        "22": {
+            "name": "Pozos",
+            "concept": "El acceso compartido a recursos profundos",
+            "keywords": [
+                "profundidad",
+                "acceso",
+                "extracción",
+                "común"
+            ]
+        },
+        "23": {
+            "name": "Antena",
+            "concept": "La captación de señales y energías",
+            "keywords": [
+                "captar",
+                "recibir",
+                "sintonizar",
+                "recepción"
+            ]
+        },
+        "24": {
+            "name": "Hogar",
+            "concept": "El espacio de intimidad y pertenencia",
+            "keywords": [
+                "intimidad",
+                "pertenencia",
+                "hogar",
+                "centro"
+            ]
+        },
+        "25": {
+            "name": "Combustión",
+            "concept": "La transformación intensa de energía",
+            "keywords": [
+                "quemar",
+                "transformar",
+                "intensidad",
+                "liberación"
+            ]
+        },
+        "26": {
+            "name": "Riego",
+            "concept": "La distribución nutritiva de recursos",
+            "keywords": [
+                "distribuir",
+                "nutrir",
+                "irrigar",
+                "regar"
+            ]
+        },
+        "27": {
+            "name": "Cisterna",
+            "concept": "El almacenamiento y gestión de lo común",
+            "keywords": [
+                "almacenar",
+                "reservar",
+                "gestionar",
+                "depositar"
+            ]
+        },
+        "28": {
+            "name": "Canal",
+            "concept": "El medio para el flujo de información",
+            "keywords": [
+                "medio",
+                "conducir",
+                "transportar",
+                "vía"
+            ]
+        },
+        "29": {
+            "name": "Nido",
+            "concept": "El espacio de reproducción de lo común",
+            "keywords": [
+                "gestar",
+                "incubar",
+                "reproducir",
+                "crear"
+            ]
+        },
+        "30": {
+            "name": "Motor",
+            "concept": "El mecanismo de acción sostenida",
+            "keywords": [
+                "sostener",
+                "impulsar",
+                "mover",
+                "mantener"
+            ]
+        },
+        "31": {
+            "name": "Raíz",
+            "concept": "La conexión profunda con lo fundamental",
+            "keywords": [
+                "fundamento",
+                "base",
+                "profundo",
+                "esencial"
+            ]
+        }
+    }
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resetario POS - APICCA COMÚN</title>
+
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Resetario POS - Interfaz de punto de venta y resets de APICCA">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://apicca.com/Resetario_POS">
+    <meta property="og:title" content="Resetario POS - APICCA COMÚN">
+    <meta property="og:description" content="Resetario POS de Economías Recíprocas">
+    <meta property="og:image" content="https://apicca.com/img/social-share.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://apicca.com/Resetario_POS">
+    <meta property="twitter:title" content="Resetario POS - APICCA COMÚN">
+    <meta property="twitter:description" content="Resetario POS de Economías Recíprocas">
+    <meta property="twitter:image" content="https://apicca.com/img/social-share.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="img/favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .printer-controls {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .resetario-ai-light .printer-controls {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .printer-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .printer-status {
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .status-disconnected {
+            color: #888;
+        }
+
+        .status-connected {
+            color: #4caf50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .status-error {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .printer-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .printer-btn:hover {
+            background: #444;
+        }
+
+        .printer-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .printer-settings {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+
+        .printer-select {
+            background: rgba(255, 255, 255, 0.05);
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 4px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .resetario-ai-light .printer-select {
+            background: white;
+            border-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="img/apicca_logo.png" alt="apicca logo" class="logo-img">
+            </a>
+        </div>
+        <div class="menu-container">
+            <button class="menu-toggle" aria-label="Menú">
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="/apices">Ápices</a></li>
+                    <li><a href="/resetario">Re(s)etario</a></li>
+
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="page-container">
+            <h1 class="resetario-title">Re(s)etario</h1>
+
+            <section id="resetario-ai" class="resetario-ai-section">
+                <div class="resetario-ai-device">
+                    <div class="tp7-top-row">
+                        <div class="tp7-disk">
+                            <div class="tp7-disk-glyph-layer"></div>
+                            <div class="tp7-disk-center"></div>
+                        </div>
+                        <div class="tp7-screen">
+                            <div class="tp7-screen-header">
+                                <span class="tp7-screen-label">Resetario POS</span>
+                            </div>
+                            <div class="tp7-screen-meta">
+                                <span class="tp7-screen-meta-time">v.0.2</span>
+                                <span class="tp7-screen-meta-slot">05</span>
+                            </div>
+                            <div id="resetario-ai-status" class="resetario-ai-status" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <div class="tp7-middle">
+
+                        <div class="resetario-ai-theme-toggle">
+                            <label class="theme-switch">
+                                <input type="checkbox" id="resetario-ai-theme-toggle" aria-label="Cambiar a modo claro">
+                                <span class="theme-switch-slider"></span>
+                                <span class="theme-switch-label">Modo claro</span>
+                            </label>
+                        </div>
+
+                        <form id="resetario-ai-form" class="resetario-ai-form">
+                            <!-- Contenedor de tácticas dentro del aparato -->
+                            <div class="resetario-ai-answer">
+                                <div id="resetario-ai-answer-text" class="resetario-ai-answer-text tactics-carousel">
+                                </div>
+                                <div class="tactics-nav">
+                                    <button type="button" id="resetario-ai-tactics-prev" class="tactics-nav-button"
+                                        aria-label="Táctica anterior" disabled>
+                                        ‹
+                                    </button>
+                                    <span id="resetario-ai-tactics-counter" class="tactics-counter">
+                                        0 / 0
+                                    </span>
+                                    <button type="button" id="resetario-ai-tactics-next" class="tactics-nav-button"
+                                        aria-label="Siguiente táctica" disabled>
+                                        ›
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="resetario-ai-input-block">
+                                <span class="resetario-ai-label">
+
+                                    <div class="resetario-ai-options">
+                                        <label class="resetario-ai-option">
+                                            <input type="checkbox" name="dimension" value="Tiempo">
+                                            <span>Tiempo</span>
+                                        </label>
+                                        <label class="resetario-ai-option">
+                                            <input type="checkbox" name="dimension" value="Espacio">
+                                            <span>Espacio</span>
+                                        </label>
+                                        <label class="resetario-ai-option">
+                                            <input type="checkbox" name="dimension" value="Información">
+                                            <span>Información</span>
+                                        </label>
+                                    </div>
+                            </div>
+
+                            <div class="tp7-transport-bar">
+                                <button type="button" class="tp7-eje-button" data-eje="agua" aria-label="Eje Agua">
+                                    <span class="sr-only">Agua</span>
+                                </button>
+                                <button type="button" class="tp7-eje-button" data-eje="alimento"
+                                    aria-label="Eje Alimento">
+                                    <span class="sr-only">Alimento</span>
+                                </button>
+                                <button type="button" class="tp7-eje-button" data-eje="cobijo" aria-label="Eje Cobijo">
+                                    <span class="sr-only">Cobijo</span>
+                                </button>
+                                <button type="button" class="tp7-eje-button" data-eje="energia"
+                                    aria-label="Eje Energía">
+                                    <span class="sr-only">Energía</span>
+                                </button>
+                                <button type="button" class="tp7-eje-button" data-eje="comunicacion"
+                                    aria-label="Eje Comunicación">
+                                    <span class="sr-only">Comunicación</span>
+                                </button>
+                            </div>
+
+                            <div class="tp7-control-row">
+                                <button type="button" id="resetario-ai-esc" class="resetario-ai-button tp7-esc-button">
+                                    Esc
+                                </button>
+                                <button type="submit" class="resetario-ai-button tp7-submit-button">
+                                    Re(s)et
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section id="resetario-ai-answer" class="resetario-ai-answer-section" hidden>
+                <div class="resetario-ai-answer">
+                    <div id="resetario-ai-response-text" class="resetario-ai-answer-text"></div>
+                </div>
+            </section>
+
+            <section class="pos-footer-controls">
+                <div class="printer-controls">
+                    <div class="printer-status-bar">
+                        <span>Impresora: <span id="printer-status"
+                                class="printer-status status-disconnected">Desconectada</span></span>
+                        <div class="printer-actions" style="display: flex; gap: 8px;">
+                            <button id="printer-reprint-btn" class="printer-btn" disabled>Volver a imprimir</button>
+                            <button id="printer-connect-btn" class="printer-btn">Conectar Impresora</button>
+                        </div>
+                    </div>
+                    <div class="printer-settings">
+                        <label for="printer-paper-size">Tamaño de papel:</label>
+                        <select id="printer-paper-size" class="printer-select">
+                            <option value="58">58mm (Estándar)</option>
+                            <option value="80">80mm (Grande)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <section class="sponsors-section">
+        <div class="sponsors-content">
+            <p class="footer-beca-text">Gracias a la Beca para la Realización de Laboratorios de Co-Creación de Objetos
+                Digitales Expandidos 2025</p>
+            <div class="sponsors-logos">
+
+                <img src="img/pde_logo_negro.png" alt="PDE" class="sponsor-logo">
+                <img src="img/aqui_si_pasa_logo_negro.png" alt="Aquí Sí Pasa" class="sponsor-logo">
+                <img src="img/bogota_logo_negro.png" alt="Bogotá" class="sponsor-logo">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <span class="footer-text">Apoyan:</span>
+            <div class="supporters-logos">
+                <a href="https://manglerojo.org" target="_blank" rel="noopener noreferrer">
+                    <img src="img/MangleRojo_logo.png" alt="MangleRojo ORG" class="supporter-logo-1">
+                </a>
+                <a href="https://labosquescuela.org" target="_blank" rel="noopener noreferrer">
+                    <img src="img/labosquescuela_logo.png" alt="LaBosquescuela UBA" class="supporter-logo-2">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    <script type="module" src="js/scripts.js"></script>
+    <script type="module" src="js/gemini-resetario-pos.js"></script>
+</body>
+
+</html>
