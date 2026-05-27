@@ -1354,6 +1354,23 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    animation: ejectFromDevice 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes ejectFromDevice {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.95);
+        clip-path: inset(0 0 100% 0);
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        clip-path: inset(-50% -50% -50% -50%); /* Restores visibility for shadows */
+    }
 }
 
 .resetario-output-header {
