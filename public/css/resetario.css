@@ -1,0 +1,1099 @@
+/* =========================================================
+   resetario.css — Re(s)etario rediseñado con lenguaje visual
+   Teenage Engineering / EP-133 K.O. II. Chasis silver, pads
+   negros, display LCD, LEDs de color, Rubik + JetBrains Mono.
+   Scope estricto: body.te-resetario (no afecta otras páginas).
+   ========================================================= */
+
+body.te-resetario {
+  /* paleta local — silver chassis (K.O. II) */
+  --cream: #dcdcdc;
+  --cream-deep: #b8b8b8;
+  --bone: #ececec;
+  --panel: #d0d0d0;
+  --ink: #141414;
+  --ink-soft: #2b2b2b;
+  --rule: #9c9c9c;
+
+  --te-orange: #ff5a00;
+  --te-yellow: #f5c500;
+  --te-red: #e53000;
+  --te-blue: #4598ff;
+  --te-green: #00b56b;
+
+  --pad-black: #1a1a1a;
+  --pad-black-edge: #050505;
+  --pad-light: #ececec;
+  --lcd-bg: #121310;
+  --lcd-text: #e8e2cc;
+  --lcd-grid: rgba(232, 226, 204, 0.06);
+
+  --m-agua: var(--te-blue);
+  --m-alimento: var(--te-green);
+  --m-cobijo: var(--te-yellow);
+  --m-energia: var(--te-red);
+  --m-comunic: var(--te-orange);
+
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: 'Rubik', system-ui, sans-serif;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(20,20,20,0.06) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+/* Header global heredado de styles.css */
+
+/* ============================================================
+   PAGE CONTAINER / TITLE
+   ============================================================ */
+body.te-resetario main {
+  display: block;
+}
+
+body.te-resetario .page-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+  background: transparent;
+}
+
+body.te-resetario .resetario-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.6vw, 3.8rem);
+  letter-spacing: -0.025em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin: 12px 0 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+body.te-resetario .resetario-title::after {
+  content: "v0.2 · 2026";
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  color: var(--ink);
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 400;
+}
+
+body.te-resetario .resetario-title::before {
+  content: "·";
+  color: var(--te-orange);
+  font-weight: 900;
+}
+
+/* ============================================================
+   DEVICE — el módulo Re(s)etario AI como chasis K.O. II
+   ============================================================ */
+body.te-resetario .resetario-ai-section {
+  background: transparent;
+  padding: 0;
+  margin: 0 0 56px;
+  border: 0;
+  box-shadow: none;
+  max-width: none;
+}
+
+body.te-resetario .resetario-ai-section::before { content: none !important; }
+
+body.te-resetario .resetario-ai-device {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--panel) 0%, var(--cream-deep) 100%);
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  box-shadow:
+    6px 6px 0 var(--ink),
+    inset 0 0 0 1px rgba(255,255,255,0.6),
+    inset 0 -3px 0 rgba(0,0,0,0.05);
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* tornillos en las esquinas */
+body.te-resetario .resetario-ai-device::before,
+body.te-resetario .resetario-ai-device::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #555, #1a1a1a 60%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+  z-index: 5;
+}
+body.te-resetario .resetario-ai-device::before { top: 8px; left: 8px; }
+body.te-resetario .resetario-ai-device::after { bottom: 8px; right: 8px; }
+
+/* ---------- Top row: disk (knob) + screen (LCD) ---------- */
+body.te-resetario .tp7-top-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 18px;
+  align-items: stretch;
+  margin: 0;
+}
+
+/* DISK → knob/dial TE con anillo de glyphs */
+body.te-resetario .tp7-disk {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #f0f0f0 0%, #a0a0a0 70%, #555555 100%);
+  border: 1.5px solid var(--ink);
+  position: relative;
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(0,0,0,0.2),
+    inset 0 -6px 12px rgba(0,0,0,0.25);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+body.te-resetario .tp7-disk::before,
+body.te-resetario .tp7-disk::after { content: none !important; }
+
+body.te-resetario .tp7-disk-center {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 35%, #2b2b2b 0%, #0a0a0a 100%);
+  border: 1.5px solid var(--ink);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 2px 4px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* tick del knob — apunta a las 12 */
+body.te-resetario .tp7-disk-center::after {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 12px;
+  background: var(--ink);
+  border-radius: 1.5px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4);
+}
+
+/* glyphs alrededor del disk — anillo de íconos */
+body.te-resetario .tp7-disk-glyph-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+body.te-resetario .tp7-disk-glyph {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(20,20,20,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.4);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+body.te-resetario .tp7-disk-glyph img {
+  width: 14px;
+  height: 14px;
+  filter: invert(1) brightness(1.1);
+  opacity: 0.92;
+}
+
+/* SCREEN → LCD verdadero */
+body.te-resetario .tp7-screen {
+  background: var(--lcd-bg);
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 14px 16px;
+  box-shadow:
+    inset 0 0 24px rgba(0,0,0,0.5),
+    0 2px 0 rgba(0,0,0,0.2);
+  background-image:
+    linear-gradient(var(--lcd-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lcd-grid) 1px, transparent 1px);
+  background-size: 6px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 150px;
+  color: var(--lcd-text);
+}
+
+body.te-resetario .tp7-screen-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+body.te-resetario .tp7-screen-header::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--te-red);
+  box-shadow:
+    0 0 0 2px rgba(229,48,0,0.25),
+    0 0 10px rgba(229,48,0,0.7);
+  animation: te-led 2s ease-in-out infinite;
+}
+
+body.te-resetario .tp7-screen-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.85;
+}
+
+body.te-resetario .tp7-screen-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.7;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(232,226,204,0.18);
+}
+
+body.te-resetario .tp7-screen-meta-slot {
+  background: rgba(232,226,204,0.1);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+body.te-resetario .resetario-ai-status,
+body.te-resetario .tp7-screen .resetario-ai-status {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--lcd-text);
+  opacity: 0.9;
+  text-transform: none;
+  line-height: 1.4;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+@keyframes te-led {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ============================================================
+   MIDDLE — área de controles del dispositivo
+   ============================================================ */
+body.te-resetario .tp7-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+body.te-resetario .resetario-ai-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Theme toggle como switch TE ---------- */
+body.te-resetario .resetario-ai-theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+body.te-resetario .theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  border-radius: 4px;
+  padding: 6px 10px 6px 8px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+body.te-resetario .theme-switch-slider {
+  width: 28px;
+  height: 16px;
+  background: var(--cream-deep);
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  position: relative;
+  transition: background 140ms ease;
+}
+
+body.te-resetario .theme-switch-slider::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(180deg, #ececec 0%, #a8a8a8 100%);
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+body.te-resetario .theme-switch input:checked + .theme-switch-slider {
+  background: var(--te-orange);
+}
+
+body.te-resetario .theme-switch input:checked + .theme-switch-slider::before {
+  transform: translateX(12px);
+}
+
+body.te-resetario .theme-switch-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Bloque de respuesta (carousel tácticas) ---------- */
+body.te-resetario .resetario-ai-answer {
+  background: var(--lcd-bg);
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 14px 16px;
+  box-shadow:
+    inset 0 0 24px rgba(0,0,0,0.5),
+    0 2px 0 rgba(0,0,0,0.2);
+  background-image:
+    linear-gradient(var(--lcd-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lcd-grid) 1px, transparent 1px);
+  background-size: 6px 6px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+body.te-resetario .resetario-ai-answer-text,
+body.te-resetario .resetario-ai-answer-text.tactics-carousel,
+body.te-resetario #resetario-ai-answer-text,
+body.te-resetario #resetario-ai-response-text {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--lcd-text);
+  line-height: 1.55;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-transform: none;
+}
+
+body.te-resetario .resetario-ai-answer-text h3,
+body.te-resetario .resetario-ai-answer-text h4,
+body.te-resetario .resetario-ai-answer h3 {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.85;
+  margin: 0 0 6px;
+  border-bottom: 1px dashed rgba(232,226,204,0.2);
+  padding-bottom: 4px;
+}
+
+body.te-resetario .resetario-ai-answer-text > p,
+body.te-resetario .resetario-ai-answer-text > ul > li,
+body.te-resetario .resetario-ai-answer-text > ol > li {
+  color: var(--lcd-text);
+}
+
+body.te-resetario .resetario-ai-answer-text > p strong,
+body.te-resetario .resetario-ai-answer-text > ul strong,
+body.te-resetario .resetario-ai-answer-text > ol strong {
+  color: var(--te-yellow);
+  font-weight: 600;
+}
+
+
+body.te-resetario .tactics-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(232,226,204,0.2);
+}
+
+body.te-resetario .tactics-nav-button {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid var(--ink);
+  background: var(--pad-light);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+
+body.te-resetario .tactics-nav-button:not(:disabled):hover {
+  background: var(--te-orange);
+}
+body.te-resetario .tactics-nav-button:not(:disabled):active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+body.te-resetario .tactics-nav-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+body.te-resetario .tactics-counter {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.7;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* ---------- Bloque de inputs (dimensiones) ---------- */
+body.te-resetario .resetario-ai-input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--bone);
+  border: 1.25px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+
+body.te-resetario .resetario-ai-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: block;
+}
+
+body.te-resetario .resetario-ai-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+body.te-resetario .resetario-ai-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink);
+  background: var(--cream);
+  border: 1.25px solid var(--ink);
+  border-radius: 4px;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+body.te-resetario .resetario-ai-option:hover {
+  background: var(--bone);
+}
+
+body.te-resetario .resetario-ai-option input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1.25px solid var(--ink);
+  border-radius: 2px;
+  background: var(--cream);
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+body.te-resetario .resetario-ai-option input[type="checkbox"]::before { content: none; }
+
+body.te-resetario .resetario-ai-option input[type="checkbox"]:checked {
+  background: var(--ink);
+}
+
+body.te-resetario .resetario-ai-option input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--te-orange);
+  border-radius: 1px;
+}
+
+body.te-resetario .resetario-ai-option:has(input:checked) {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* ---------- Transport bar — 5 ejes como pads negros ---------- */
+body.te-resetario .tp7-transport-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  background: rgba(0,0,0,0.05);
+  border: 1.25px dashed var(--rule);
+  border-radius: 6px;
+}
+
+body.te-resetario .tp7-eje-button {
+  position: relative;
+  height: 64px;
+  background: var(--pad-black);
+  background-image: linear-gradient(180deg, #232323 0%, #0c0c0c 100%);
+  border: 1px solid var(--pad-black-edge);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 -3px 6px rgba(0,0,0,0.5);
+  padding: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+  overflow: hidden;
+}
+
+body.te-resetario .tp7-eje-button::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+
+body.te-resetario .tp7-eje-button::after {
+  content: attr(data-eje);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  opacity: 0.85;
+}
+
+body.te-resetario .tp7-eje-button[data-eje="agua"]::before { background: var(--te-blue); box-shadow: 0 0 8px var(--te-blue); }
+body.te-resetario .tp7-eje-button[data-eje="alimento"]::before { background: var(--te-green); box-shadow: 0 0 8px var(--te-green); }
+body.te-resetario .tp7-eje-button[data-eje="cobijo"]::before { background: var(--te-yellow); box-shadow: 0 0 8px var(--te-yellow); }
+body.te-resetario .tp7-eje-button[data-eje="energia"]::before { background: var(--te-red); box-shadow: 0 0 8px var(--te-red); }
+body.te-resetario .tp7-eje-button[data-eje="comunicacion"]::before { background: var(--te-orange); box-shadow: 0 0 8px var(--te-orange); }
+
+body.te-resetario .tp7-eje-button:hover {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -2px 6px rgba(0,0,0,0.5);
+}
+
+body.te-resetario .tp7-eje-button.active {
+  background-image: linear-gradient(180deg, #2f2f2f 0%, #1a1a1a 100%);
+}
+body.te-resetario .tp7-eje-button.active::before {
+  animation: te-led 1.4s ease-in-out infinite;
+}
+body.te-resetario .tp7-eje-button.active[data-eje="agua"] { box-shadow: 0 0 0 2px var(--te-blue), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tp7-eje-button.active[data-eje="alimento"] { box-shadow: 0 0 0 2px var(--te-green), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tp7-eje-button.active[data-eje="cobijo"] { box-shadow: 0 0 0 2px var(--te-yellow), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tp7-eje-button.active[data-eje="energia"] { box-shadow: 0 0 0 2px var(--te-red), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tp7-eje-button.active[data-eje="comunicacion"] { box-shadow: 0 0 0 2px var(--te-orange), 0 2px 0 rgba(0,0,0,0.4); }
+
+/* ---------- Control row: Esc + Re(s)et como function keys ---------- */
+body.te-resetario .tp7-control-row {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+body.te-resetario .resetario-ai-button {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  padding: 12px 22px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink);
+  background: var(--bone);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.te-resetario .tp7-esc-button {
+  background: var(--bone);
+}
+
+body.te-resetario .tp7-submit-button {
+  background: var(--te-orange);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+body.te-resetario .tp7-submit-button::before {
+  content: "▸";
+  font-family: inherit;
+  font-size: 11px;
+}
+
+body.te-resetario .resetario-ai-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+body.te-resetario .resetario-ai-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+body.te-resetario .tp7-submit-button:disabled,
+body.te-resetario .tp7-submit-button.tp7-submit-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  background: var(--cream-deep);
+  color: var(--ink-soft);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ============================================================
+   RESPUESTA AI (sección debajo del aparato)
+   ============================================================ */
+body.te-resetario .resetario-ai-answer-section {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 32px 0 56px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.te-resetario .resetario-ai-answer-section .resetario-ai-answer {
+  min-height: 200px;
+  padding: 20px 22px;
+}
+
+/* ============================================================
+   EJES SECTION — tabs como banco de pads
+   ============================================================ */
+body.te-resetario .ejes-section {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 56px 0 0;
+  border-top: 1.5px dashed var(--rule);
+}
+
+body.te-resetario .ejes-section::before {
+  content: "▸ documentación · cinco ejes";
+  display: block;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+body.te-resetario .tabs-container {
+  background: var(--bone);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 var(--ink);
+  overflow: hidden;
+  width: 100%;
+}
+
+body.te-resetario .tabs-nav {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  padding: 10px;
+  background: var(--panel);
+  border-bottom: 1.5px solid var(--ink);
+  overflow: visible;
+}
+
+body.te-resetario .tab-button {
+  position: relative;
+  min-width: 0;
+  flex: none;
+  padding: 14px 8px 10px;
+  height: 72px;
+  background: var(--pad-black);
+  background-image: linear-gradient(180deg, #232323 0%, #0c0c0c 100%);
+  border: 1px solid var(--pad-black-edge);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lcd-text);
+  font-weight: 500;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 -3px 6px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  text-align: left;
+  border-bottom: 1px solid var(--pad-black-edge);
+  transition: transform 80ms ease, box-shadow 80ms ease;
+  overflow: hidden;
+}
+
+/* eliminar la "caja de color" original — solo dejar LED */
+body.te-resetario .tab-button::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+
+body.te-resetario .tab-button[data-color="gray"]::before { background: rgba(255,255,255,0.25); box-shadow: 0 0 0 1px rgba(0,0,0,0.4); }
+body.te-resetario .tab-button[data-color="blue"]::before { background: var(--te-blue); box-shadow: 0 0 8px var(--te-blue); }
+body.te-resetario .tab-button[data-color="green"]::before { background: var(--te-green); box-shadow: 0 0 8px var(--te-green); }
+body.te-resetario .tab-button[data-color="yellow"]::before { background: var(--te-yellow); box-shadow: 0 0 8px var(--te-yellow); }
+body.te-resetario .tab-button[data-color="red"]::before { background: var(--te-red); box-shadow: 0 0 8px var(--te-red); }
+body.te-resetario .tab-button[data-color="orange"]::before { background: var(--te-orange); box-shadow: 0 0 8px var(--te-orange); }
+
+body.te-resetario .tab-button:hover {
+  transform: translateY(1px);
+  background: var(--pad-black);
+}
+
+body.te-resetario .tab-button.active {
+  background-image: linear-gradient(180deg, #2f2f2f 0%, #1a1a1a 100%);
+  color: var(--lcd-text);
+  font-weight: 600;
+}
+
+body.te-resetario .tab-button.active::before {
+  animation: te-led 1.4s ease-in-out infinite;
+}
+
+body.te-resetario .tab-button.active[data-tab="intro"] { box-shadow: 0 0 0 2px var(--ink), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tab-button.active[data-tab="agua"] { box-shadow: 0 0 0 2px var(--te-blue), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tab-button.active[data-tab="alimento"] { box-shadow: 0 0 0 2px var(--te-green), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tab-button.active[data-tab="cobijo"] { box-shadow: 0 0 0 2px var(--te-yellow), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tab-button.active[data-tab="energia"] { box-shadow: 0 0 0 2px var(--te-red), 0 2px 0 rgba(0,0,0,0.4); }
+body.te-resetario .tab-button.active[data-tab="comunicacion"] { box-shadow: 0 0 0 2px var(--te-orange), 0 2px 0 rgba(0,0,0,0.4); }
+
+body.te-resetario .tabs-content {
+  padding: 28px 28px 32px;
+  background: var(--bone);
+  min-height: 360px;
+}
+
+body.te-resetario .tab-panel h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  text-transform: lowercase;
+  color: var(--ink);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+body.te-resetario .tab-panel h3::before {
+  content: "//";
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  color: var(--te-orange);
+  letter-spacing: -0.04em;
+}
+
+body.te-resetario .eje-content h4 {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--cream);
+  border: 1px solid var(--ink);
+  padding: 5px 10px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 22px 0 12px;
+}
+
+body.te-resetario .eje-content h4:first-child { margin-top: 0; }
+
+body.te-resetario .eje-content p {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+
+body.te-resetario .eje-content strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+body.te-resetario .ejes-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+body.te-resetario .ejes-list li {
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--ink);
+  padding: 10px 12px 10px 30px;
+  margin: 0;
+  background: var(--cream);
+  border: 1.25px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 var(--ink);
+  position: relative;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+body.te-resetario .eje-list-item:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+  opacity: 1;
+}
+
+body.te-resetario .ejes-list li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+
+body.te-resetario .ejes-list li[data-color="blue"]::before { background: var(--te-blue); box-shadow: 0 0 6px var(--te-blue); }
+body.te-resetario .ejes-list li[data-color="green"]::before { background: var(--te-green); box-shadow: 0 0 6px var(--te-green); }
+body.te-resetario .ejes-list li[data-color="yellow"]::before { background: var(--te-yellow); box-shadow: 0 0 6px var(--te-yellow); }
+body.te-resetario .ejes-list li[data-color="red"]::before { background: var(--te-red); box-shadow: 0 0 6px var(--te-red); }
+body.te-resetario .ejes-list li[data-color="orange"]::before { background: var(--te-orange); box-shadow: 0 0 6px var(--te-orange); }
+
+body.te-resetario .ejes-list li strong {
+  text-transform: lowercase;
+  font-weight: 700;
+}
+
+/* ============================================================
+   SPONSORS + FOOTER
+   ============================================================ */
+body.te-resetario .sponsors-section {
+  background: transparent;
+  border-top: 1.5px dashed var(--rule);
+  padding: 32px 24px 24px;
+  max-width: 1320px;
+  margin: 64px auto 0;
+}
+
+body.te-resetario .sponsors-content {
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  text-align: center;
+}
+
+body.te-resetario .footer-beca-text {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 60ch;
+  line-height: 1.5;
+}
+
+body.te-resetario .sponsors-logos {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+body.te-resetario .sponsors-logos img,
+body.te-resetario .sponsor-logo {
+  height: 30px;
+  width: auto;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.75;
+  transition: opacity 120ms ease, filter 120ms ease;
+}
+
+body.te-resetario .sponsors-logos img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+body.te-resetario footer {
+  background: transparent;
+  border-top: 1.5px dashed var(--rule);
+  padding: 24px 24px 32px;
+  margin: 24px auto 0;
+  max-width: 1320px;
+}
+
+body.te-resetario footer .footer-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+body.te-resetario .footer-text {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body.te-resetario .supporters-logos {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+body.te-resetario .supporters-logos img {
+  height: 36px;
+  width: auto;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.8;
+  transition: opacity 120ms ease, filter 120ms ease;
+}
+
+body.te-resetario .supporters-logos a:hover img {
+  filter: none;
+  opacity: 1;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 880px) {
+  body.te-resetario header::before { content: "apicca·001"; }
+  body.te-resetario .tp7-top-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  body.te-resetario .tp7-disk {
+    margin: 0 auto;
+  }
+  body.te-resetario .tabs-nav {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  body.te-resetario .page-container { padding: 0 16px 48px; }
+  body.te-resetario .resetario-ai-device { padding: 18px 16px 20px; }
+  body.te-resetario .tp7-transport-bar { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 8px; }
+  body.te-resetario .tp7-eje-button { height: 52px; }
+  body.te-resetario .tp7-eje-button::after { font-size: 8px; letter-spacing: 0.1em; }
+  body.te-resetario .tabs-nav { grid-template-columns: repeat(2, 1fr); }
+  body.te-resetario .tp7-control-row { flex-direction: column-reverse; }
+  body.te-resetario .tp7-control-row button { width: 100%; justify-content: center; }
+  body.te-resetario .resetario-ai-button { padding: 12px 18px; }
+  body.te-resetario .tabs-content { padding: 20px 16px 24px; }
+  body.te-resetario .resetario-title { font-size: 2rem; }
+  body.te-resetario .ejes-list { grid-template-columns: 1fr; }
+}
