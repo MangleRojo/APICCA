@@ -7,8 +7,7 @@
     /* blanco grisáceo industrial */
 
     /* EP-133 K.O. II Core Palette */
-    --ep133-bg: #e2e2e2;
-    /* fondo gris claro de la página (como la tienda TE) */
+    --ep133-bg: var(--primary-white);
     --ep133-surface: #d0d0d0;
     /* superficie de panel / cuerpo del dispositivo */
     --ep133-mid: #b0b0b0;
@@ -62,6 +61,8 @@
 body {
     font-family: 'Outfit', sans-serif;
     background-color: var(--ep133-bg);
+    background-image: radial-gradient(circle at 1px 1px, rgba(20,20,20,0.06) 1px, transparent 0);
+    background-size: 18px 18px;
     color: var(--ep133-dark);
     min-height: 100vh;
     display: flex;
@@ -221,7 +222,7 @@ main::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--primary-white);
+    background-color: transparent;
     z-index: -1;
 }
 

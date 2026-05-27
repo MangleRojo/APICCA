@@ -7,7 +7,7 @@
 
 body.te-home {
   /* paleta local — silver chassis (K.O. II) */
-  --cream: #dcdcdc;        /* fondo página — silver claro */
+  --cream: var(--primary-white);        /* fondo página igual al header */
   --cream-deep: #b8b8b8;   /* silver medio — sombras del chasis */
   --bone: #ececec;         /* silver muy claro — superficies elevadas */
   --panel: #d0d0d0;        /* silver del panel del aparato */
@@ -37,10 +37,6 @@ body.te-home {
   background-color: var(--cream);
   color: var(--ink);
   font-family: 'Rubik', system-ui, sans-serif;
-  /* textura de puntos sutil tipo chasis moldeado */
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(20,20,20,0.06) 1px, transparent 0);
-  background-size: 18px 18px;
 }
 
 body.te-home .home-main {

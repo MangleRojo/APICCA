@@ -7,7 +7,7 @@
 
 body.te-resetario {
   /* paleta local — silver chassis (K.O. II) */
-  --cream: #dcdcdc;
+  --cream: var(--primary-white);
   --cream-deep: #b8b8b8;
   --bone: #ececec;
   --panel: #d0d0d0;
@@ -37,9 +37,6 @@ body.te-resetario {
   background-color: var(--cream);
   color: var(--ink);
   font-family: 'Rubik', system-ui, sans-serif;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(20,20,20,0.06) 1px, transparent 0);
-  background-size: 18px 18px;
 }
 
 /* Header global heredado de styles.css */
