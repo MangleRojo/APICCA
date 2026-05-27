@@ -12,6 +12,11 @@ import {
   setDoc,
   doc,
 } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore-lite.js";
+import {
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+  getToken,
+} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app-check.js";
 
 // Configuración del proyecto Firebase.
 // Obtener desde: Firebase Console → Project Settings → General → Your apps → Web app
@@ -29,6 +34,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// App Check con reCAPTCHA v3.
+// Obtener el site key en: Firebase Console → App Check → Registrar app → reCAPTCHA v3
+// Luego pegar aquí y activar ENFORCE_APP_CHECK=true en functions/.env.apicca-com
+const RECAPTCHA_SITE_KEY = "REEMPLAZAR_CON_SITE_KEY_DE_RECAPTCHA_V3";
+
+let _appCheck = null;
+if (RECAPTCHA_SITE_KEY !== "REEMPLAZAR_CON_SITE_KEY_DE_RECAPTCHA_V3") {
+  _appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+    isTokenAutoRefreshEnabled: true,
+  });
+}
+
+export async function getAppCheckToken() {
+  if (!_appCheck) return null;
+  try {
+    const result = await getToken(_appCheck);
+    return result.token;
+  } catch (e) {
+    console.warn("App Check: no se pudo obtener token:", e.message);
+    return null;
+  }
+}
 
 export async function getApices(ejeFilter) {
   const col = collection(db, "apices");

@@ -1,7 +1,7 @@
 // Cliente frontend para hablar con la Firebase Function `callGemini`
 // sin exponer la API key de Gemini en el navegador.
 
-import { saveReset } from "./firebase-client.js";
+import { saveReset, getAppCheckToken } from "./firebase-client.js";
 
 // ========== Constantes de configuración ==========
 const CONFIG = {
@@ -738,9 +738,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let response;
     try {
       const FUNCTION_URL = "/callGemini";
+      const appCheckToken = await getAppCheckToken();
+      const fetchHeaders = { "Content-Type": "application/json" };
+      if (appCheckToken) fetchHeaders["X-Firebase-AppCheck"] = appCheckToken;
       response = await fetch(FUNCTION_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: fetchHeaders,
         body: JSON.stringify({ prompt }),
       });
 
