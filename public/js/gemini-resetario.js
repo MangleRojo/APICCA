@@ -367,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>`;
 
     const responseHtml = `
-      <div class="resetario-output" aria-label="Respuesta del Re(s)etario">
+      <div class="resetario-output ${loading ? 'is-peek' : 'is-final'}" aria-label="Respuesta del Re(s)etario">
         <div class="resetario-output-header">
           <div class="resetario-output-title">
             <div class="resetario-output-title-main">Re(s)etario</div>
@@ -384,11 +384,8 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    const peekEl = responseTextEl.querySelector('.resetario-output-footer-peek');
-    if (peekEl) {
-      const parentOutput = peekEl.closest('.resetario-peek-only') || peekEl.closest('.resetario-output');
-      if (parentOutput) parentOutput.remove();
-    }
+    const existingPeekOutputs = responseTextEl.querySelectorAll('.is-peek, .resetario-peek-only');
+    existingPeekOutputs.forEach(el => el.remove());
 
     responseTextEl.insertAdjacentHTML('afterbegin', responseHtml);
 
@@ -679,10 +676,12 @@ document.addEventListener("DOMContentLoaded", () => {
     setStatus("");
     if (responseTextEl) {
 
-      const hasPrintedCards = responseTextEl.innerHTML.includes("resetario-output-hash");
-      const hasPeek = responseTextEl.innerHTML.includes("resetario-output-footer-peek");
+      const peekCards = responseTextEl.querySelectorAll('.is-peek, .resetario-peek-only');
+      peekCards.forEach(card => card.remove());
 
-      if (!hasPrintedCards && !hasPeek) {
+      const hasFinalCards = responseTextEl.querySelector('.is-final');
+
+      if (!hasFinalCards) {
         if (answerSection) {
           answerSection.classList.remove("is-full");
         }
@@ -780,11 +779,14 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add("has-card");
 
         if (state.selectedGlyphCards.length === 1 && answerSection) {
-          const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
-          if (!hasPrintedCards) answerSection.classList.remove("is-full");
+          const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+          if (!hasFinalCards) answerSection.classList.remove("is-full");
           answerSection.hidden = false;
-          if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
-            responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+          if (responseTextEl) {
+            const existingPeek = responseTextEl.querySelector('.is-peek');
+            if (!existingPeek) {
+              renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+            }
           }
         }
 
@@ -811,11 +813,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
           if (hasAnyDimension && answerSection) {
-            const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
-            if (!hasPrintedCards) answerSection.classList.remove("is-full");
+            const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+            if (!hasFinalCards) answerSection.classList.remove("is-full");
             answerSection.hidden = false;
-            if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
-              responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+            if (responseTextEl) {
+              const existingPeek = responseTextEl.querySelector('.is-peek');
+              if (!existingPeek) {
+                renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+              }
             }
           }
         }
@@ -874,16 +879,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (answerSection) {
       answerSection.hidden = false;
-      const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
-      if (!hasPrintedCards) answerSection.classList.remove("is-full");
+      const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+      if (!hasFinalCards) answerSection.classList.remove("is-full");
     }
     if (answerTitleEl) {
       answerTitleEl.hidden = false;
     }
     
     // Maintain peek arrow instead of clearing
-    if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
-      responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+    if (responseTextEl) {
+      const existingPeek = responseTextEl.querySelector('.is-peek');
+      if (!existingPeek) {
+        renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+      }
     }
 
     let response;
@@ -1101,11 +1109,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
         if (hasAnyDimension && answerSection) {
-          const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
-          if (!hasPrintedCards) answerSection.classList.remove("is-full");
+          const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+          if (!hasFinalCards) answerSection.classList.remove("is-full");
           answerSection.hidden = false;
-          if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
-            responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+          if (responseTextEl) {
+            const existingPeek = responseTextEl.querySelector('.is-peek');
+            if (!existingPeek) {
+              renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+            }
           }
         }
       }
