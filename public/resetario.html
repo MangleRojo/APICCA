@@ -31,10 +31,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="img/favicon_io/site.webmanifest">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/resetario.css">
 </head>
 
-<body class="te-resetario">
+<body class="te-resetario te-home">
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
@@ -66,282 +65,91 @@
 
     <main id="main-content">
         <div class="page-container">
-            <h1 class="resetario-title">Re(s)etario</h1>
+            <h1 class="sr-only">Re(s)etario</h1>
 
-            <section id="resetario-ai" class="resetario-ai-section">
-                <div class="resetario-ai-device">
-                    <div class="tp7-top-row">
-                        <div class="tp7-disk">
-                            <div class="tp7-disk-glyph-layer"></div>
-                            <div class="tp7-disk-center"></div>
-                        </div>
-                        <div class="tp7-screen">
-                            <div class="tp7-screen-header">
-                                <span class="tp7-screen-label">Re(s)etario</span>
-                            </div>
-                            <div class="tp7-screen-meta">
-                                <span class="tp7-screen-meta-time">v.0.2</span>
-                                <span class="tp7-screen-meta-slot">05</span>
-                            </div>
-                            <div id="resetario-ai-status" class="resetario-ai-status" aria-live="polite"></div>
-                        </div>
+            <!-- Device chassis tipo K.O. II -->
+            <aside class="device" aria-hidden="true" id="ko-ii-device">
+
+                <div class="device-branding">re(s)etario</div>
+                <!-- Top I/O status bar -->
+                <header class="device-io">
+                    <span class="io-pill is-on" id="io-input">input</span>
+                    <span class="io-pill" id="io-output">output</span>
+                    <span class="io-pill io-pill-with-btn">
+                        <button type="button" class="orange-btn" aria-label="Sync Button"></button>
+                        sync
+                    </span>
+                    <span class="io-pill io-pill-with-btn">
+                        <button type="button" class="orange-btn" aria-label="Print Button"></button>
+                        print
+                    </span>
+                    <span class="io-pill"></span>
+                    <span class="io-pill">usb</span>
+                    <span class="io-pill is-on">power</span>
+                </header>
+
+                <div class="device-screen">
+                    <div id="ko-ii-status" class="ko-ii-status" role="status" aria-live="polite"></div>
+                    <div class="screen-meta">
+                        <span>bar</span>
+                        <span>fx</span>
+                        <span>q</span>
                     </div>
-
-                    <div class="tp7-middle">
-
-                        <div class="resetario-ai-theme-toggle">
-                            <label class="theme-switch">
-                                <input type="checkbox" id="resetario-ai-theme-toggle" aria-label="Cambiar a modo claro">
-                                <span class="theme-switch-slider"></span>
-                                <span class="theme-switch-label">Modo claro</span>
-                            </label>
-                        </div>
-
-                        <form id="resetario-ai-form" class="resetario-ai-form">
-                            <!-- Contenedor de tácticas dentro del aparato -->
-                            <div class="resetario-ai-answer">
-                                <div id="resetario-ai-answer-text" class="resetario-ai-answer-text tactics-carousel"></div>
-                                <div class="tactics-nav">
-                                    <button
-                                        type="button"
-                                        id="resetario-ai-tactics-prev"
-                                        class="tactics-nav-button"
-                                        aria-label="Táctica anterior"
-                                        disabled
-                                    >
-                                        ‹
-                                    </button>
-                                    <span id="resetario-ai-tactics-counter" class="tactics-counter">
-                                        0 / 0
-                                    </span>
-                                    <button
-                                        type="button"
-                                        id="resetario-ai-tactics-next"
-                                        class="tactics-nav-button"
-                                        aria-label="Siguiente táctica"
-                                        disabled
-                                    >
-                                        ›
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="resetario-ai-input-block">
-                                <span class="resetario-ai-label">
-                                    
-                                <div class="resetario-ai-options">
-                                    <label class="resetario-ai-option">
-                                        <input type="checkbox" name="dimension" value="Tiempo">
-                                        <span>Tiempo</span>
-                                    </label>
-                                    <label class="resetario-ai-option">
-                                        <input type="checkbox" name="dimension" value="Espacio">
-                                        <span>Espacio</span>
-                                    </label>
-                                    <label class="resetario-ai-option">
-                                        <input type="checkbox" name="dimension" value="Información">
-                                        <span>Información</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="tp7-transport-bar">
-                                <button type="button" class="tp7-eje-button" data-eje="agua"
-                                    aria-label="Eje Agua">
-                                    <span class="sr-only">Agua</span>
-                                </button>
-                                <button type="button" class="tp7-eje-button" data-eje="alimento"
-                                    aria-label="Eje Alimento">
-                                    <span class="sr-only">Alimento</span>
-                                </button>
-                                <button type="button" class="tp7-eje-button" data-eje="cobijo"
-                                    aria-label="Eje Cobijo">
-                                    <span class="sr-only">Cobijo</span>
-                                </button>
-                                <button type="button" class="tp7-eje-button" data-eje="energia"
-                                    aria-label="Eje Energía">
-                                    <span class="sr-only">Energía</span>
-                                </button>
-                                <button type="button" class="tp7-eje-button" data-eje="comunicacion"
-                                    aria-label="Eje Comunicación">
-                                    <span class="sr-only">Comunicación</span>
-                                </button>
-                            </div>
-
-                            <div class="tp7-control-row">
-                                <button type="button" id="resetario-ai-esc" class="resetario-ai-button tp7-esc-button">
-                                    Esc
-                                </button>
-                                <button type="submit" class="resetario-ai-button tp7-submit-button">
-                                    Re(s)et
-                                </button>
-                            </div>
-                        </form>
+                    <div class="screen-display">
+                        <!-- La pantalla muestra la tarjeta de info o de eje -->
                     </div>
+                    <div class="tactics-nav">
+                        <button type="button" id="resetario-ai-tactics-prev" class="tactics-nav-button" aria-label="Táctica anterior" disabled>‹</button>
+                        <span id="resetario-ai-tactics-counter" class="tactics-counter">0 / 0</span>
+                        <button type="button" id="resetario-ai-tactics-next" class="tactics-nav-button" aria-label="Siguiente táctica" disabled>›</button>
+                    </div>
+                    <div class="screen-rec" aria-hidden="true"></div>
                 </div>
-            </section>
+
+                <!-- Function row: KEYS / FADER / EDIT / COPY / LOOP / PITCH / TIME -->
+                <div class="device-functions">
+                    <button type="button" class="fn-key">I</button>
+                    <button type="button" class="fn-key">II</button>
+                    <button type="button" class="fn-key is-active">III</button>
+                    <button type="button" class="fn-key">IV</button>
+                    <button type="button" class="fn-key">V</button>
+                    <button type="button" class="fn-key">VI</button>
+                    <button type="button" class="fn-key">VII</button>
+                </div>
+
+                <!-- Pad grid (5×2) -->
+                <div class="device-pads">
+                    <button type="button" class="pad tp7-eje-button" data-led="blue" data-eje="agua"><span class="pad-num">1</span><span class="pad-label">agua</span></button>
+                    <button type="button" class="pad tp7-eje-button" data-led="green" data-eje="alimento"><span class="pad-num">2</span><span class="pad-label">alimento</span></button>
+                    <button type="button" class="pad tp7-eje-button" data-led="yellow" data-eje="cobijo"><span class="pad-num">3</span><span class="pad-label">cobijo</span></button>
+                    <button type="button" class="pad tp7-eje-button" data-led="red" data-eje="energia"><span class="pad-num">4</span><span class="pad-label">energía</span></button>
+                    <button type="button" class="pad tp7-eje-button" data-led="orange" data-eje="comunicacion"><span class="pad-num">5</span><span class="pad-label">comunicación</span></button>
+
+                    <button type="button" class="pad pad-light" id="device-pad-esc"><span class="pad-num"></span><span class="pad-label">esc</span></button>
+                    <button type="button" class="pad pad-rec"><span class="pad-num">●</span><span class="pad-label">re(s)et</span></button>
+                    <button type="button" class="pad pad-light tp7-dimension-button" data-dimension="Tiempo"><span class="pad-num">a</span><span class="pad-label">tiempo</span></button>
+                    <button type="button" class="pad pad-light tp7-dimension-button" data-dimension="Espacio"><span class="pad-num">b</span><span class="pad-label">espacio</span></button>
+                    <button type="button" class="pad pad-light tp7-dimension-button" data-dimension="Información"><span class="pad-num">c</span><span class="pad-label">info</span></button>
+                </div>
+
+            </aside>
+
+            <!-- Área de respuesta: aparece debajo del K.O. II -->
+            <div id="ko-ii-output" class="ko-ii-output" hidden>
+                <div id="resetario-ai-answer-text" class="resetario-ai-answer-text tactics-carousel"></div>
+            </div>
+
+            <!-- Estado oculto del formulario: los controles visibles viven en el K=-II -->
+            <form id="resetario-ai-form" class="resetario-ai-form-headless" hidden aria-hidden="true">
+                <input type="checkbox" name="dimension" value="Tiempo">
+                <input type="checkbox" name="dimension" value="Espacio">
+                <input type="checkbox" name="dimension" value="Información">
+                <button type="submit" class="tp7-submit-button" tabindex="-1"></button>
+                <button type="button" id="resetario-ai-esc" tabindex="-1"></button>
+            </form>
 
             <section id="resetario-ai-answer" class="resetario-ai-answer-section" hidden>
-                <div class="resetario-ai-answer">
-                    <div id="resetario-ai-response-text" class="resetario-ai-answer-text"></div>
-                </div>
-            </section>
-
-            <!-- Los Cinco Ejes -->
-            <section class="ejes-section">
-                <!-- Tabs Navigation -->
-                <div class="tabs-container">
-                    <nav class="tabs-nav" role="tablist" aria-label="Navegación de ejes de autonomía común">
-                        <button class="tab-button active" data-tab="intro" data-color="gray" role="tab"
-                            aria-selected="true" aria-controls="tab-intro" id="tab-button-intro">Introducción</button>
-                        <button class="tab-button" data-tab="agua" data-color="blue" role="tab" aria-selected="false"
-                            aria-controls="tab-agua" id="tab-button-agua">Agua</button>
-                        <button class="tab-button" data-tab="alimento" data-color="green" role="tab"
-                            aria-selected="false" aria-controls="tab-alimento" id="tab-button-alimento">Alimento</button>
-                        <button class="tab-button" data-tab="cobijo" data-color="yellow" role="tab"
-                            aria-selected="false" aria-controls="tab-cobijo" id="tab-button-cobijo">Cobijo</button>
-                        <button class="tab-button" data-tab="energia" data-color="red" role="tab"
-                            aria-selected="false" aria-controls="tab-energia" id="tab-button-energia">Energía</button>
-                        <button class="tab-button" data-tab="comunicacion" data-color="orange" role="tab"
-                            aria-selected="false" aria-controls="tab-comunicacion"
-                            id="tab-button-comunicacion">Comunicación</button>
-                    </nav>
-
-                    <!-- Tab Content -->
-                    <div class="tabs-content">
-                        <!-- Introducción -->
-                        <div class="tab-panel active" id="tab-intro" role="tabpanel" aria-labelledby="tab-button-intro">
-                            <h3>¿Qué es el Re(s)etario?</h3>
-                            <div class="eje-content">
-                                    <p>El <strong>Re(s)etario es la interfaz para programar APICCA</strong>. Se compone de
-                                    tácticas de economía recíproca que pueden ser combinadas para crear nuevas formas de
-                                    organización y colaboración basadas en el apoyo mutuo.</p>
-
-                                <h4>Los cinco ejes de autonomía común</h4>
-                                <p>La autonomía no se consigue de forma aislada, sino en conexión. Estos cinco ámbitos
-                                    son fundamentales para construir autonomía común, presentados en orden de
-                                    importancia vital:</p>
-                                <ul class="ejes-list">
-                                    <li data-color="blue" data-tab="agua" class="eje-list-item"><strong>Agua</strong> - La base de la vida</li>
-                                    <li data-color="green" data-tab="alimento" class="eje-list-item"><strong>Alimento</strong> - El reparador del cuerpo</li>
-                                    <li data-color="yellow" data-tab="cobijo" class="eje-list-item"><strong>Cobijo</strong> - El refugio y la estabilidad</li>
-                                    <li data-color="red" data-tab="energia" class="eje-list-item"><strong>Energía</strong> - La capacidad de acción</li>
-                                    <li data-color="orange" data-tab="comunicacion" class="eje-list-item"><strong>Comunicación</strong> - La coordinación colectiva</li>
-                                </ul>
-                                <p>Para saber más sobre cada eje haga click en las pestañas de colores de arriba.</p>
-                            </div>
-                        </div>
-
-                        <!-- Agua -->
-                        <div class="tab-panel" id="tab-agua" role="tabpanel" aria-labelledby="tab-button-agua" hidden>
-                            <h3>Agua</h3>
-                            <div class="eje-content">
-                                <h4>¿Por qué es fundamental?</h4>
-                                <p>El agua es la base de la vida. Sin acceso a agua potable, la supervivencia es
-                                    imposible más allá de pocos días. Es el primero y más urgente de los cinco ámbitos
-                                    de autonomía común. El cuerpo humano, los cultivos, la higiene, todo depende del
-                                    agua.</p>
-
-                                <h4>Autonomía vs. Dependencia</h4>
-                                <p><strong>Dependencia:</strong> Estar atado a redes centralizadas de distribución de
-                                    agua, donde el acceso puede ser cortado, controlado o monetizado sin capacidad de
-                                    respuesta.</p>
-                                <p><strong>Autonomía común:</strong> Acceso colectivo a fuentes de agua, sistemas de
-                                    captación y filtración compartidos, conocimiento comunitario sobre gestión hídrica.
-                                    No se trata de cada persona con su propio pozo aislado, sino de comunidades que
-                                    gestionan el agua como bien común.</p>
-                            </div>
-                        </div>
-
-                        <!-- Alimento -->
-                        <div class="tab-panel" id="tab-alimento" role="tabpanel"
-                            aria-labelledby="tab-button-alimento" hidden>
-                            <h3>Alimento</h3>
-                            <div class="eje-content">
-                                <h4>¿Por qué es fundamental?</h4>
-                                <p>El alimento es el reparador del cuerpo. Sin acceso a nutrición adecuada, la salud y
-                                    la capacidad de acción se deterioran rápidamente. Es el segundo ámbito vital,
-                                    complementario al agua. La autonomía alimentaria es fundamental para no depender de
-                                    cadenas de suministro frágiles o explotadoras.</p>
-
-                                <h4>Autonomía vs. Dependencia</h4>
-                                <p><strong>Dependencia:</strong> Depender exclusivamente de supermercados y cadenas de
-                                    distribución globales, donde el acceso está mediado por dinero y los productores
-                                    están lejos y desconectados de los consumidores.</p>
-                                <p><strong>Autonomía común:</strong> Sistemas de producción local de alimentos (huertos
-                                    comunitarios, agricultura urbana), redes de economía recíproca basadas en el apoyo
-                                    mutuo, conocimiento compartido sobre cultivo y conservación. La autonomía
-                                    alimentaria se construye desde la solidaridad, no desde el intercambio mercantil.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Cobijo -->
-                        <div class="tab-panel" id="tab-cobijo" role="tabpanel" aria-labelledby="tab-button-cobijo"
-                            hidden>
-                            <h3>Cobijo</h3>
-                            <div class="eje-content">
-                                <h4>¿Por qué es fundamental?</h4>
-                                <p>El cobijo protege del clima, provee seguridad y estabilidad para desarrollar la vida.
-                                    Sin un espacio seguro donde habitar, es imposible construir otras formas de
-                                    autonomía. Es el tercer ámbito esencial, el refugio desde donde se puede proyectar
-                                    todo lo demás.</p>
-
-                                <h4>Autonomía vs. Dependencia</h4>
-                                <p><strong>Dependencia:</strong> Estar sometido a mercados inmobiliarios especulativos,
-                                    rentas impagables, desalojos arbitrarios, o hipotecas que condicionan décadas de
-                                    vida laboral.</p>
-                                <p><strong>Autonomía común:</strong> Formas cooperativas de vivienda, okupación
-                                    organizada, auto-construcción colectiva, co-housing. El cobijo común no es propiedad
-                                    privada ni renta perpetua, sino acceso digno y estable construido entre muchos.</p>
-                            </div>
-                        </div>
-
-                        <!-- Energía -->
-                        <div class="tab-panel" id="tab-energia" role="tabpanel" aria-labelledby="tab-button-energia"
-                            hidden>
-                            <h3>Energía</h3>
-                            <div class="eje-content">
-                                <h4>¿Por qué es fundamental?</h4>
-                                <p>La energía permite la acción, el movimiento, la transformación. Desde cocinar
-                                    alimentos hasta comunicarse o trabajar, casi toda actividad humana requiere energía.
-                                    En el mundo contemporáneo, la dependencia energética es una de las formas más
-                                    profundas de control.</p>
-
-                                <h4>Autonomía vs. Dependencia</h4>
-                                <p><strong>Dependencia:</strong> Estar atado a redes eléctricas centralizadas,
-                                    combustibles fósiles controlados por grandes corporaciones, facturas que aumentan
-                                    sin control.</p>
-                                <p><strong>Autonomía común:</strong> Sistemas de energía renovable compartidos (paneles
-                                    solares comunitarios, generadores eólicos), conocimiento sobre eficiencia
-                                    energética, reducción de consumo, gestión colectiva de recursos. La energía autónoma
-                                    es distribuida y sostenible.</p>
-                            </div>
-                        </div>
-
-                        <!-- Comunicación -->
-                        <div class="tab-panel" id="tab-comunicacion" role="tabpanel"
-                            aria-labelledby="tab-button-comunicacion" hidden>
-                            <h3>Comunicación</h3>
-                            <div class="eje-content">
-                                <h4>¿Por qué es fundamental?</h4>
-                                <p>La comunicación permite la coordinación, el aprendizaje, la organización colectiva.
-                                    Sin capacidad de comunicarnos, es imposible construir autonomía común. Es el eje que
-                                    conecta todos los demás, el que permite que la red exista.</p>
-
-                                <h4>Autonomía vs. Dependencia</h4>
-                                <p><strong>Dependencia:</strong> Depender de plataformas corporativas que extraen datos,
-                                    censuran contenidos, manipulan algoritmos y pueden cerrar cuentas arbitrariamente.
-                                    Herramientas que nos dominan en lugar de servirnos.</p>
-                                <p><strong>Autonomía común:</strong> Herramientas conviviales (en el sentido de Ivan
-                                    Illich) que potencian la colaboración sin alienar. Redes autogestionadas,
-                                    plataformas libres, tecnologías abiertas, espacios de encuentro físico. La
-                                    comunicación autónoma es horizontal, construida desde la convivialidad y el apoyo
-                                    mutuo, no desde la extracción de valor.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="resetario-ai-response-text" class="resetario-ai-answer-text"></div>
             </section>
 
         </div>
@@ -349,12 +157,10 @@
 
     <section class="sponsors-section">
         <div class="sponsors-content">
-            <p class="footer-beca-text">Gracias a la Beca para la Realización de Laboratorios de Co-Creación de Objetos
-                Digitales Expandidos 2025</p>
+            <p class="footer-beca-text">Gracias a la Beca para la Realización de<br>Laboratorios de Co-Creación de Objetos Digitales<br>Expandidos 2025</p>
             <div class="sponsors-logos">
-
-                <img src="img/pde_logo_negro.png" alt="PDE" class="sponsor-logo">
-                <img src="img/aqui_si_pasa_logo_negro.png" alt="Aquí Sí Pasa" class="sponsor-logo">
+                <img src="img/pde_logo_negro.png" alt="Propuesta Ganadora PDE" class="sponsor-logo">
+                <img src="img/aqui_si_pasa_logo_negro.png" alt="Aquí Sí Pasa Bogotá" class="sponsor-logo">
                 <img src="img/bogota_logo_negro.png" alt="Bogotá" class="sponsor-logo">
             </div>
         </div>
@@ -377,7 +183,6 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
     <script type="module" src="js/scripts.js"></script>
     <script type="module" src="js/gemini-resetario.js"></script>
-    <script type="module" src="js/documentacion.js"></script>
 </body>
 
 </html>

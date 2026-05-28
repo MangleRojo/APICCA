@@ -66,8 +66,16 @@ const EJE_TO_COLOR = {
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("resetario-ai-form");
-  const statusEl = document.getElementById("resetario-ai-status");
-  const deviceEl = document.querySelector(".resetario-ai-device");
+  const koIIStatusEl = document.getElementById("ko-ii-status");
+
+  const BUSY_PATTERN = /^consultando/i;
+  const setStatus = (text) => {
+    if (!koIIStatusEl) return;
+    const value = text == null ? "" : String(text);
+    koIIStatusEl.textContent = value;
+    koIIStatusEl.classList.toggle("is-busy", BUSY_PATTERN.test(value));
+  };
+  const deviceEl = document.getElementById("ko-ii-device");
   const answerSection = document.getElementById("resetario-ai-answer");
   const answerTextEl = document.getElementById("resetario-ai-answer-text");
   const responseTextEl = document.getElementById("resetario-ai-response-text");
@@ -77,12 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const tacticsCounterEl = document.getElementById(
     "resetario-ai-tactics-counter",
   );
-  const themeToggle = document.getElementById("resetario-ai-theme-toggle");
-  const resetarioSection = document.getElementById("resetario-ai");
   const ejeButtons = document.querySelectorAll(".tp7-eje-button");
-  const glyphLayer = document.querySelector(".tp7-disk-glyph-layer");
   const submitButton = document.querySelector(".tp7-submit-button");
   const escButton = document.getElementById("resetario-ai-esc");
+  // Pantalla del K.O. II y área de salida
+  const koIIScreenDisplay = document.querySelector(".device-screen .screen-display");
+  const koIIOutput = document.getElementById("ko-ii-output");
+  const ioInput = document.getElementById("io-input");
+  const ioOutput = document.getElementById("io-output");
 
   // ========== Estado centralizado ==========
   const state = {
@@ -94,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cardsData: null,
     colorMeanings: null,
     audioContext: null,
+    isOutputMode: false,
   };
 
   function resetState() {
@@ -102,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     state.currentEjeKey = null;
     state.currentTacticIndex = 0;
     state.currentDimensions = [];
+    state.isOutputMode = false;
     updateTacticNavButtons();
   }
 
@@ -271,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
          </div>`
       : `<div class="resetario-section-content">
-            <p class="resetario-output-text">${sanitizeGeminiHtml(text)}</p>
+            <div class="resetario-output-text">${sanitizeGeminiHtml(text)}</div>
          </div>`;
 
     const bodyHtml = `
@@ -327,15 +339,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderInitialInfoCard() {
-    if (!answerSection || !answerTextEl) return;
+    if (!koIIScreenDisplay) return;
 
-    answerSection.hidden = false;
-    if (answerTitleEl) {
-      answerTitleEl.hidden = true;
-    }
-    answerTextEl.classList.add("info-mode");
-    answerTextEl.innerHTML = `
-      <div class="reset-card resetario-ai-info-card active" aria-label="Informaci\u00f3n sobre el Re(s)etario" tabindex="0">
+    // Ocultar área de salida, mostrar info en pantalla del K.O. II
+    if (koIIOutput) koIIOutput.hidden = true;
+    if (answerTextEl) answerTextEl.innerHTML = "";
+
+    koIIScreenDisplay.innerHTML = `
+      <div class="reset-card resetario-ai-info-card active" aria-label="Información sobre el Re(s)etario" tabindex="0">
         <div class="card-inner">
           <div class="card-front">
             <div class="resetario-ai-info-front">
@@ -348,17 +359,17 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="card-back">
             <div class="card-back-content">
               <h4>Instrucciones</h4>
-              <p>1. Escoja hasta tres t\u00e1cticas de <strong>Agua</strong>, <strong>Alimentaci\u00f3n</strong>, <strong>Cobijo</strong>, <strong>Energ\u00eda</strong> o <strong>Comunicaci\u00f3n</strong>.</p>
-              <p>2. Seleccione las dimensiones de <strong>Tiempo</strong>, <strong>Espacio</strong> o <strong>Informaci\u00f3n</strong>.</p>
+              <p>1. Escoja hasta tres t\u00e1cticas de <strong>Agua</strong>, <strong>Alimentación</strong>, <strong>Cobijo</strong>, <strong>Energía</strong> o <strong>Comunicación</strong>.</p>
+              <p>2. Seleccione las dimensiones de <strong>Tiempo</strong>, <strong>Espacio</strong> o <strong>Información</strong>.</p>
               <p>3. Pulse <strong>Re(s)et</strong> para crear una Re(s)eta con las t\u00e1cticas seleccionadas.</p>
-              <p>Para m\u00e1s detalle metodol\u00f3gico consulta la <a href="/resetario/documentacion">Documentaci\u00f3n</a>.</p>
+
             </div>
           </div>
         </div>
       </div>
     `;
 
-    const infoCard = answerTextEl.querySelector(".resetario-ai-info-card");
+    const infoCard = koIIScreenDisplay.querySelector(".resetario-ai-info-card");
     if (infoCard) {
       const toggleFlip = () => {
         infoCard.classList.toggle("flipped");
@@ -388,21 +399,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderSelectedGlyphCards() {
-    if (!answerSection || !answerTextEl) return;
+    if (!koIIScreenDisplay) return;
 
-    answerSection.hidden = false;
-    if (answerTitleEl) {
-      answerTitleEl.hidden = false;
-    }
-
+    // Las tarjetas de eje van DENTRO de la pantalla del K.O. II
+    // Los controles de nav se muestran debajo del dispositivo
     if (!state.selectedGlyphCards.length) {
-      answerTextEl.innerHTML = "";
+      koIIScreenDisplay.innerHTML = "";
+      if (koIIOutput) koIIOutput.hidden = true;
       state.currentTacticIndex = 0;
       updateTacticNavButtons();
       return;
     }
 
-    answerTextEl.classList.remove("info-mode");
+    if (koIIOutput) koIIOutput.hidden = false;
 
     if (state.currentTacticIndex >= state.selectedGlyphCards.length) {
       state.currentTacticIndex = state.selectedGlyphCards.length - 1;
@@ -416,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardColor = card.color || "standard";
 
     const cardHtml = `
-      <div class="reset-card combination-card card-${cardColor} active" aria-label="T\u00e1ctica seleccionada" tabindex="0">
+      <div class="reset-card combination-card card-${cardColor} active" aria-label="Táctica seleccionada" tabindex="0">
         <div class="card-inner">
           <div class="card-front">
             <div class="card-top">
@@ -436,9 +445,12 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    answerTextEl.innerHTML = cardHtml;
+    koIIScreenDisplay.innerHTML = cardHtml;
 
-    const cardEl = answerTextEl.querySelector(".reset-card");
+    // Limpiar answerTextEl para evitar duplicados
+    if (answerTextEl) answerTextEl.innerHTML = "";
+
+    const cardEl = koIIScreenDisplay.querySelector(".reset-card");
     if (cardEl) {
       const toggleFlip = () => {
         cardEl.classList.toggle("flipped");
@@ -487,8 +499,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setFormBusy(busy) {
     if (submitButton) {
-      submitButton.disabled = busy;
-      submitButton.classList.toggle("tp7-submit-disabled", busy);
+      const disableSubmit = busy || state.isOutputMode;
+      submitButton.disabled = disableSubmit;
+      submitButton.classList.toggle("tp7-submit-disabled", disableSubmit);
     }
     if (escButton) {
       escButton.disabled = busy;
@@ -536,17 +549,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ========== Event Listeners ==========
 
-  // Toggle de modo claro/oscuro del aparato
-  if (themeToggle && resetarioSection) {
-    themeToggle.addEventListener("change", () => {
-      if (themeToggle.checked) {
-        resetarioSection.classList.add("resetario-ai-light");
-      } else {
-        resetarioSection.classList.remove("resetario-ai-light");
-      }
-    });
-  }
-
   // Desactivar env\u00edo hasta que se seleccione un eje de color
   if (submitButton) {
     submitButton.disabled = true;
@@ -557,46 +559,65 @@ document.addEventListener("DOMContentLoaded", () => {
   renderInitialInfoCard();
 
   // Bot\u00f3n Esc: limpiar selecciones y volver al estado inicial
+  const handleEscClick = () => {
+    playEscSound();
+    if (escButton) escButton.disabled = true;
+
+    if (ioInput) ioInput.classList.add("is-on");
+    if (ioOutput) ioOutput.classList.remove("is-on");
+
+    resetState();
+
+    if (ejeButtons && ejeButtons.length > 0) {
+      ejeButtons.forEach((b) => {
+        b.classList.remove("active");
+        b.classList.remove("has-card");
+      });
+    }
+
+    setFormBusy(true);
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.classList.add("tp7-submit-disabled");
+    }
+
+    if (form) {
+      const dimensionCheckboxes =
+        form.querySelectorAll('input[name="dimension"]');
+      dimensionCheckboxes.forEach((cb) => {
+        cb.checked = false;
+      });
+      const dimBtns = document.querySelectorAll('.tp7-dimension-button');
+      if (dimBtns) dimBtns.forEach(b => b.classList.remove('active'));
+    }
+
+    setStatus("");
+    if (responseTextEl) {
+      responseTextEl.innerHTML = "";
+    }
+    renderInitialInfoCard();
+
+    if (escButton) escButton.disabled = false;
+  };
+
   if (escButton) {
-    escButton.addEventListener("click", () => {
-      playEscSound();
-      escButton.disabled = true;
+    escButton.addEventListener("click", handleEscClick);
+  }
+  
+  const devicePadEsc = document.getElementById("device-pad-esc");
+  if (devicePadEsc) {
+    devicePadEsc.addEventListener("click", handleEscClick);
+  }
 
-      if (glyphLayer) {
-        while (glyphLayer.firstChild) {
-          glyphLayer.removeChild(glyphLayer.firstChild);
-        }
+  const devicePadRec = document.querySelector(".device-pads .pad-rec");
+  if (devicePadRec && submitButton) {
+    devicePadRec.addEventListener("click", () => {
+      if (!submitButton.disabled) {
+        submitButton.click();
+      } else {
+        // Optionally play a blocked sound or do nothing
+        playEscSound(); // using as generic error sound if needed
       }
-
-      resetState();
-
-      if (ejeButtons && ejeButtons.length > 0) {
-        ejeButtons.forEach((b) => b.classList.remove("active"));
-      }
-
-      setFormBusy(true);
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.classList.add("tp7-submit-disabled");
-      }
-
-      if (form) {
-        const dimensionCheckboxes =
-          form.querySelectorAll('input[name="dimension"]');
-        dimensionCheckboxes.forEach((cb) => {
-          cb.checked = false;
-        });
-      }
-
-      if (statusEl) {
-        statusEl.textContent = "";
-      }
-      if (responseTextEl) {
-        responseTextEl.innerHTML = "";
-      }
-      renderInitialInfoCard();
-
-      escButton.disabled = false;
     });
   }
 
@@ -604,6 +625,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (ejeButtons && ejeButtons.length > 0) {
     ejeButtons.forEach((btn) => {
       btn.addEventListener("click", async () => {
+        if (state.isOutputMode) return;
         const ejeKey = btn.dataset.eje;
 
         playEjeSound(ejeKey);
@@ -618,67 +640,68 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (state.selectedGlyphCards.length >= CONFIG.MAX_TACTICS) {
-          if (statusEl) {
-            statusEl.textContent =
-              "Ya seleccionaste tres t\u00e1cticas. Puedes hacer Re(s)et o recargar para elegir de nuevo.";
-          }
+          setStatus("M\u00e1ximo hasta tres t\u00e1cticas");
           return;
         }
 
-        if (glyphLayer) {
-          const allCards = await loadCardsData();
-          const colorKey = EJE_TO_COLOR[ejeKey];
-          const usedIds = new Set(state.selectedGlyphCards.map((c) => c.id));
-          let candidates = Array.isArray(allCards)
-            ? allCards.filter(
-              (c) => c.color === colorKey && !usedIds.has(c.id),
-            )
-            : [];
+        const allCards = await loadCardsData();
+        const colorKey = EJE_TO_COLOR[ejeKey];
+        const usedIds = new Set(state.selectedGlyphCards.map((c) => c.id));
+        let candidates = Array.isArray(allCards)
+          ? allCards.filter(
+            (c) => c.color === colorKey && !usedIds.has(c.id),
+          )
+          : [];
 
-          if (!candidates.length && Array.isArray(allCards)) {
-            candidates = allCards.filter((c) => c.color === colorKey);
-          }
-
-          if (!candidates.length) {
-            return;
-          }
-
-          const chosen =
-            candidates[Math.floor(Math.random() * candidates.length)];
-
-          const top = CONFIG.GLYPH_POS_MIN + Math.random() * CONFIG.GLYPH_POS_RANGE;
-          const left = CONFIG.GLYPH_POS_MIN + Math.random() * CONFIG.GLYPH_POS_RANGE;
-
-          const dx = left - CONFIG.CIRCLE_CENTER;
-          const dy = top - CONFIG.CIRCLE_CENTER;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const maxDist = Math.sqrt(CONFIG.CIRCLE_RADIUS * CONFIG.CIRCLE_RADIUS * 2);
-          const proximity = 1 - Math.min(dist / maxDist, 1);
-
-          state.selectedGlyphCards.push({
-            ...chosen,
-            ejeKey,
-            proximity,
-          });
-          state.currentTacticIndex = state.selectedGlyphCards.length - 1;
-
-          const wrapper = document.createElement("div");
-          wrapper.className = `tp7-disk-glyph tp7-disk-glyph-${ejeKey}`;
-
-          const img = document.createElement("img");
-          state.currentGlyphIndex = chosen.id;
-          const padded = chosen.id.toString().padStart(2, "0");
-          img.src = chosen.glyph || `img/glyph/glyph_${padded}.png`;
-          img.alt = `Glyph ${padded}`;
-
-          wrapper.style.top = `${top}%`;
-          wrapper.style.left = `${left}%`;
-
-          wrapper.appendChild(img);
-          glyphLayer.appendChild(wrapper);
+        if (!candidates.length && Array.isArray(allCards)) {
+          candidates = allCards.filter((c) => c.color === colorKey);
         }
 
+        if (!candidates.length) {
+          return;
+        }
+
+        const chosen =
+          candidates[Math.floor(Math.random() * candidates.length)];
+
+        const left = CONFIG.GLYPH_POS_MIN + Math.random() * CONFIG.GLYPH_POS_RANGE;
+        const top = CONFIG.GLYPH_POS_MIN + Math.random() * CONFIG.GLYPH_POS_RANGE;
+        const dx = left - CONFIG.CIRCLE_CENTER;
+        const dy = top - CONFIG.CIRCLE_CENTER;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = Math.sqrt(CONFIG.CIRCLE_RADIUS * CONFIG.CIRCLE_RADIUS * 2);
+        const proximity = 1 - Math.min(dist / maxDist, 1);
+
+        state.selectedGlyphCards.push({
+          ...chosen,
+          ejeKey,
+          proximity,
+        });
+        state.currentTacticIndex = state.selectedGlyphCards.length - 1;
+        state.currentGlyphIndex = chosen.id;
+        btn.classList.add("has-card");
+
         renderSelectedGlyphCards();
+      });
+    });
+  }
+
+  const dimensionButtons = document.querySelectorAll(".tp7-dimension-button");
+  if (dimensionButtons && dimensionButtons.length > 0) {
+    dimensionButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (state.isOutputMode) return;
+        const dimensionValue = btn.dataset.dimension;
+        const dimensionCheckboxes = form.querySelectorAll('input[name="dimension"]');
+        const targetCheckbox = Array.from(dimensionCheckboxes).find(
+          (cb) => cb.value === dimensionValue
+        );
+        if (targetCheckbox) {
+          playDimensionSound(dimensionValue);
+          targetCheckbox.checked = !targetCheckbox.checked;
+          targetCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+          btn.classList.toggle('active', targetCheckbox.checked);
+        }
       });
     });
   }
@@ -708,7 +731,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const selectedDimensions = getSelectedDimensions();
     if (selectedDimensions.length === 0) {
-      statusEl.textContent = "Selecciona al menos una dimensi\u00f3n: Tiempo, Espacio o Conocimiento.";
+      setStatus("Selecciona al menos una dimensi\u00f3n");
       return;
     }
 
@@ -716,9 +739,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setFormBusy(true);
     state.currentDimensions = selectedDimensions;
 
+    if (ioInput) ioInput.classList.remove("is-on");
+    if (ioOutput) ioOutput.classList.add("is-on");
+
+    state.isOutputMode = true;
+
     const prompt = buildPrompt(selectedDimensions, state.selectedGlyphCards);
 
-    statusEl.textContent = "Consultando...";
+    setStatus("Consultando ... espere");
     if (deviceEl) {
       const rect = deviceEl.getBoundingClientRect();
       const targetY = window.scrollY + rect.top - CONFIG.SCROLL_OFFSET_PX;
@@ -733,7 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (answerTitleEl) {
       answerTitleEl.hidden = false;
     }
-    renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+    responseTextEl.innerHTML = '';
 
     let response;
     try {
@@ -757,15 +785,16 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (_e) {
           // ignorar errores de parseo de JSON
         }
-        statusEl.textContent = message;
+        setStatus(message);
         setFormBusy(false);
+        state.isOutputMode = false;
         return;
       }
 
       const data = await response.json();
       const text = (data && data.text) || "No he podido generar una respuesta \u00fatil.";
 
-      statusEl.textContent = "";
+      setStatus("");
       await loadCardsData();
       const cardInfo = resolveCardInfo();
 
@@ -789,8 +818,9 @@ document.addEventListener("DOMContentLoaded", () => {
       setFormBusy(false);
     } catch (err) {
       console.error("Error llamando al asistente del Re(s)etario:", err);
-      statusEl.textContent = getErrorMessage(err, null);
+      setStatus(getErrorMessage(err, null));
       setFormBusy(false);
+      state.isOutputMode = false;
     }
   });
 
@@ -810,6 +840,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "E": "Espacio",
     "i": "Informaci\u00f3n",
     "I": "Informaci\u00f3n",
+    "a": "Tiempo",
+    "A": "Tiempo",
+    "b": "Espacio",
+    "B": "Espacio",
+    "c": "Informaci\u00f3n",
+    "C": "Informaci\u00f3n",
   };
 
   document.addEventListener("keydown", (event) => {
@@ -837,6 +873,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (keyToEje[event.key] && ejeButtons && ejeButtons.length > 0) {
       event.preventDefault();
+      if (state.isOutputMode) return;
       const targetEje = keyToEje[event.key];
       const targetButton = Array.from(ejeButtons).find(
         (btn) => btn.dataset.eje === targetEje
@@ -850,6 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (keyToDimension[event.key]) {
       event.preventDefault();
+      if (state.isOutputMode) return;
       const dimensionValue = keyToDimension[event.key];
       const dimensionCheckboxes = form.querySelectorAll('input[name="dimension"]');
       const targetCheckbox = Array.from(dimensionCheckboxes).find(
@@ -859,6 +897,10 @@ document.addEventListener("DOMContentLoaded", () => {
         playDimensionSound(dimensionValue);
         targetCheckbox.checked = !targetCheckbox.checked;
         targetCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+        const btn = Array.from(document.querySelectorAll(".tp7-dimension-button")).find(
+          b => b.dataset.dimension === dimensionValue
+        );
+        if (btn) btn.classList.toggle('active', targetCheckbox.checked);
       }
     }
   });
