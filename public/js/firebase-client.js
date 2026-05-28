@@ -72,6 +72,17 @@ export async function getApices(ejeFilter) {
 }
 
 /**
+ * Lee todos los resets de la colección 'resets', ordenados por fecha (más recientes primero).
+ * @returns {Promise<Array>} Array de resets con su id (hash) y datos.
+ */
+export async function getResets() {
+  const col = collection(db, "resets");
+  const q = query(col, orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+/**
  * Guarda un reset en la colección 'resets' usando el hash como ID.
  * @param {Object} resetData - Datos del reset (hash, text, tactics, dimensions, etc.)
  */
