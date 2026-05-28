@@ -2111,7 +2111,7 @@ body.te-home .hero {
    ============================================================ */
 body.te-home .hero-content {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
+    grid-template-columns: 1.05fr 0.95fr;
     gap: 32px;
     padding: 0;
     align-items: stretch;
@@ -2515,20 +2515,19 @@ body.te-home .device-screen .tactics-nav {
 body.te-home .device-screen .tactics-nav-button {
     pointer-events: auto;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
+    bottom: 10px;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
     z-index: 10;
 }
 
 body.te-home .device-screen #resetario-ai-tactics-prev {
-    left: 50px;
+    right: 44px;
 }
 
 body.te-home .device-screen #resetario-ai-tactics-next {
-    right: 50px;
+    right: 10px;
 }
 
 body.te-home .device-screen .tactics-counter {
@@ -3439,6 +3438,10 @@ body.te-home .eje-doc-body p strong {
         grid-template-columns: 1fr;
     }
 
+    body.te-home .hero-copy {
+        order: -1;
+    }
+
     body.te-home .device {
         min-height: 0;
     }
@@ -3450,10 +3453,6 @@ body.te-home .eje-doc-body p strong {
     }
 
 
-
-    body.te-home .hero-subtitle {
-        font-size: 2.4rem;
-    }
 
     body.te-home .menu-container nav ul {
         gap: 0;
@@ -4489,4 +4488,200 @@ body.te-home .about-section .section-eyebrow .count {
 .resetario-tactic-badge-neutral {
     background: #e0e0e0;
     color: #555;
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATIONS — Fase 1 (Home) + Fase 2 (Resetario)
+   ============================================================ */
+
+/* Tap targets mínimos accesibles */
+@media (max-width: 768px) {
+
+    /* --- Estructura global --- */
+    main {
+        padding: 1rem;
+    }
+
+    .page-container {
+        padding: 1rem;
+    }
+
+    /* --- Home: hero visual ocupa todo el ancho disponible --- */
+    body.te-home .hero {
+        padding: 2rem 1rem 3rem;
+    }
+
+    body.te-home .hero-visual {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Strip: distribuir contenido para que ocupe el ancho */
+    body.te-home .te-strip {
+        gap: 10px 14px;
+        padding: 14px 16px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    /* Seq: usar todo el ancho disponible */
+    body.te-home .te-seq {
+        width: 100%;
+    }
+
+    body.te-home .te-seq-steps {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 4px;
+    }
+
+    /* --- Ejes grid: override del repeat(5,1fr) específico de te-home --- */
+    body.te-home .ejes-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    body.te-home .eje-card .eje-title {
+        font-size: 1.15rem;
+        overflow-wrap: anywhere;
+    }
+
+    body.te-home .eje-card .eje-blurb {
+        font-size: 0.8rem;
+    }
+
+    body.te-home .eje-card .faceplate .serial {
+        font-size: 8px;
+    }
+
+    /* --- Resetario: chasis 1-col adelantado a 768px --- */
+    body.te-home .device {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "brand"
+            "io"
+            "screen"
+            "fns"
+            "pads";
+        gap: 10px 0;
+        min-height: 0;
+        padding: 14px 14px 16px;
+    }
+
+    /* I/O bar: pills más compactas y wrap controlado */
+    body.te-home .device-io {
+        gap: 4px;
+        padding-bottom: 12px;
+    }
+
+    body.te-home .device-io .io-pill {
+        font-size: 8px;
+        padding: 3px 7px 3px 13px;
+        letter-spacing: 0.14em;
+    }
+
+    /* Pantalla LCD: altura adaptada a móvil */
+    body.te-home .device-screen {
+        height: auto;
+        min-height: 280px;
+        padding: 10px 12px;
+    }
+
+    /* Fn-keys: 7 cols se mantienen pero más altas para tap */
+    body.te-home .device-functions {
+        gap: 4px;
+    }
+
+    body.te-home .fn-key {
+        min-height: 36px;
+        padding: 8px 2px;
+        font-size: 8.5px;
+    }
+
+    /* Pads 5×2: tap target mínimo y label legible */
+    body.te-home .device-pads {
+        gap: 6px;
+        min-height: 0;
+    }
+
+    body.te-home .pad {
+        min-height: 64px;
+        padding: 7px 7px 6px;
+    }
+
+    body.te-home .pad-label {
+        font-size: 7.5px;
+        letter-spacing: 0.1em;
+    }
+
+    body.te-home .pad-num {
+        font-size: 0.95rem;
+    }
+
+    /* Carrusel de tácticas: evitar desbordes en pantallas estrechas */
+    .tactics-carousel,
+    .resetario-ai-answer-text {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* Branding del device en móvil: más discreto */
+    body.te-home .device-branding {
+        font-size: 1rem;
+    }
+}
+
+/* Móvil pequeño (<540): refinamientos extra */
+@media (max-width: 540px) {
+
+    main {
+        padding: 0.5rem;
+    }
+
+    body.te-resetario .page-container {
+        padding: 0 12px 32px;
+    }
+
+    /* I/O bar: ocultar pills decorativas que no aportan en móvil */
+    body.te-home .device-io .io-pill:nth-child(5) {
+        display: none;
+    }
+
+    /* Strip del hero: ocultar adornos puramente decorativos */
+    body.te-home .ts-cmyk,
+    body.te-home .ts-stripes,
+    body.te-home .ts-divider {
+        display: none;
+    }
+
+    /* Pads: aún más compactos sin sacrificar tap target */
+    body.te-home .pad {
+        min-height: 56px;
+        padding: 6px 5px 5px;
+    }
+
+    body.te-home .device-pads {
+        gap: 4px;
+    }
+
+    body.te-home .pad-label {
+        font-size: 6.5px;
+        letter-spacing: 0.06em;
+    }
+
+    /* Re(s)et pad: reducir label que estaba a 0.8rem */
+    body.te-home .pad-rec .pad-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.04em;
+    }
+
+    /* Esc pad: alinear tamaño con el resto */
+    body.te-home #device-pad-esc .pad-label {
+        font-size: 0.7rem;
+    }
+
+    /* Hero visual más contenido */
+    .hero-visual {
+        max-width: 100%;
+    }
 }
