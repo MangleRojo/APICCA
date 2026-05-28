@@ -2,6 +2,7 @@
 // sin exponer la API key de Gemini en el navegador.
 
 import { saveReset, getAppCheckToken } from "./firebase-client.js";
+import { printerService, ReceiptBuilder } from "./bluetooth-printer.js";
 
 // ========== Constantes de configuración ==========
 const CONFIG = {
@@ -93,6 +94,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const koIIOutput = document.getElementById("ko-ii-output");
   const ioInput = document.getElementById("io-input");
   const ioOutput = document.getElementById("io-output");
+  const deviceBtnSync = document.getElementById("device-btn-sync");
+  const ioSyncPill = document.getElementById("io-sync");
+  const ioPrintPill = document.getElementById("io-print");
+  const deviceBtnPrint = document.getElementById("device-btn-print");
+
+  if (deviceBtnSync) {
+    deviceBtnSync.addEventListener("click", async () => {
+      try {
+        if (!printerService.isConnected()) {
+          setStatus("Conectando impresora...");
+          await printerService.connect();
+          if (ioSyncPill) ioSyncPill.classList.add("is-on");
+          setStatus("Impresora conectada");
+        } else {
+          printerService.disconnect();
+          if (ioSyncPill) ioSyncPill.classList.remove("is-on");
+          setStatus("Impresora desconectada");
+        }
+      } catch (err) {
+        console.error("Error bluetooth:", err);
+        setStatus("Error: " + err.message);
+      }
+    });
+
+    window.addEventListener("printer-disconnected", () => {
+      if (ioSyncPill) ioSyncPill.classList.remove("is-on");
+    });
+  }
+
+  if (deviceBtnPrint) {
+    deviceBtnPrint.addEventListener("click", async () => {
+      if (!printerService.isConnected()) {
+        setStatus("Impresora no conectada");
+        return;
+      }
+      if (!state.lastPrintBuffer) {
+        setStatus("No hay ninguna Re(s)eta para imprimir");
+        return;
+      }
+      
+      try {
+        if (ioPrintPill) ioPrintPill.classList.add("is-on");
+        await printerService.sendData(state.lastPrintBuffer);
+        // Mantener el LED encendido un poco más para que coincida con el tiempo físico de impresión
+        await new Promise(r => setTimeout(r, 2000));
+      } catch (err) {
+        console.error("Error al reimprimir:", err);
+      } finally {
+        if (ioPrintPill) ioPrintPill.classList.remove("is-on");
+      }
+    });
+  }
 
   // ========== Estado centralizado ==========
   const state = {
@@ -105,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     colorMeanings: null,
     audioContext: null,
     isOutputMode: false,
+    lastPrintBuffer: null,
   };
 
   function resetState() {
@@ -309,6 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const footerHtml = `<div class="resetario-output-footer">
         ${hash ? `<span class="resetario-output-hash">${hash}</span>` : ""}
+        <span class="resetario-output-peek-arrow" aria-hidden="true">▾</span>
       </div>`;
 
     const responseHtml = `
@@ -316,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="resetario-output-header">
           <div class="resetario-output-title">
             <div class="resetario-output-title-main">Re(s)etario</div>
-            <div class="resetario-output-title-sub">v.0.2</div>
+            <div class="resetario-output-title-sub">v.0.3</div>
           </div>
           <div class="resetario-output-bars">
             ${barsHtml}
@@ -329,10 +384,33 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    responseTextEl.innerHTML = responseHtml;
+    const peekEl = responseTextEl.querySelector('.resetario-output-footer-peek');
+    if (peekEl) {
+      const parentOutput = peekEl.closest('.resetario-peek-only') || peekEl.closest('.resetario-output');
+      if (parentOutput) parentOutput.remove();
+    }
+
+    responseTextEl.insertAdjacentHTML('afterbegin', responseHtml);
 
     if (!loading) {
-      responseTextEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Scroll suave que sigue la tarjeta durante la animación de salida (4s)
+      const outputCard = responseTextEl.querySelector('.resetario-output');
+      if (outputCard) {
+        const animDuration = 7000; // coincide con la duración CSS
+        const startTime = performance.now();
+        const trackScroll = (now) => {
+          const elapsed = now - startTime;
+          const rect = outputCard.getBoundingClientRect();
+          const bottomOffset = rect.bottom - window.innerHeight + 40;
+          if (bottomOffset > 0) {
+            window.scrollBy({ top: bottomOffset, behavior: 'auto' });
+          }
+          if (elapsed < animDuration) {
+            requestAnimationFrame(trackScroll);
+          }
+        };
+        requestAnimationFrame(trackScroll);
+      }
     }
 
     return hash;
@@ -341,8 +419,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderInitialInfoCard() {
     if (!koIIScreenDisplay) return;
 
-    // Ocultar área de salida, mostrar info en pantalla del K.O. II
-    if (koIIOutput) koIIOutput.hidden = true;
+    // Ocultar área de salida solo si no estamos mostrando el peek
+    if (koIIOutput) {
+      const answerSection = document.getElementById("resetario-ai-answer");
+      if (answerSection && answerSection.classList.contains("is-full")) {
+        koIIOutput.hidden = false;
+      } else {
+        koIIOutput.hidden = true;
+      }
+    }
     if (answerTextEl) answerTextEl.innerHTML = "";
 
     koIIScreenDisplay.innerHTML = `
@@ -593,7 +678,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setStatus("");
     if (responseTextEl) {
-      responseTextEl.innerHTML = "";
+
+      const hasPrintedCards = responseTextEl.innerHTML.includes("resetario-output-hash");
+      const hasPeek = responseTextEl.innerHTML.includes("resetario-output-footer-peek");
+
+      if (!hasPrintedCards && !hasPeek) {
+        if (answerSection) {
+          answerSection.classList.remove("is-full");
+        }
+      } else {
+        if (answerSection) {
+          answerSection.classList.add("is-full");
+          answerSection.hidden = false;
+        }
+      }
     }
     renderInitialInfoCard();
 
@@ -681,6 +779,15 @@ document.addEventListener("DOMContentLoaded", () => {
         state.currentGlyphIndex = chosen.id;
         btn.classList.add("has-card");
 
+        if (state.selectedGlyphCards.length === 1 && answerSection) {
+          const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
+          if (!hasPrintedCards) answerSection.classList.remove("is-full");
+          answerSection.hidden = false;
+          if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
+            responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+          }
+        }
+
         renderSelectedGlyphCards();
       });
     });
@@ -701,6 +808,16 @@ document.addEventListener("DOMContentLoaded", () => {
           targetCheckbox.checked = !targetCheckbox.checked;
           targetCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
           btn.classList.toggle('active', targetCheckbox.checked);
+
+          const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
+          if (hasAnyDimension && answerSection) {
+            const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
+            if (!hasPrintedCards) answerSection.classList.remove("is-full");
+            answerSection.hidden = false;
+            if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
+              responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+            }
+          }
         }
       });
     });
@@ -757,11 +874,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (answerSection) {
       answerSection.hidden = false;
+      const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
+      if (!hasPrintedCards) answerSection.classList.remove("is-full");
     }
     if (answerTitleEl) {
       answerTitleEl.hidden = false;
     }
-    responseTextEl.innerHTML = '';
+    
+    // Maintain peek arrow instead of clearing
+    if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
+      responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+    }
 
     let response;
     try {
@@ -798,6 +921,9 @@ document.addEventListener("DOMContentLoaded", () => {
       await loadCardsData();
       const cardInfo = resolveCardInfo();
 
+      if (answerSection) {
+        answerSection.classList.add("is-full");
+      }
       const hash = renderResetarioOutput({ text, cardInfo, loading: false });
 
       // Guardar reset en Firestore
@@ -811,6 +937,77 @@ document.addEventListener("DOMContentLoaded", () => {
         })),
         dimensions: state.currentDimensions
       });
+
+      // Si la impresora está conectada, imprimir el resultado automáticamente
+      if (printerService.isConnected()) {
+        try {
+          const now = new Date();
+          const dateStr = now.toLocaleDateString();
+          const timeStr = now.toLocaleTimeString();
+
+          const builder = new ReceiptBuilder();
+          builder.init()
+            .alignCenter()
+            .size(true)
+            .text("APICCA").newline()
+            .size(false)
+            .bold(true).text("Re(s)etario v.0.3").bold(false).newline()
+            .text(`${dateStr} ${timeStr}`).newline()
+            .separator()
+            .alignLeft()
+            .bold(true).text("Tácticas:").bold(false).newline();
+
+          const tactics = state.selectedGlyphCards.slice(0, CONFIG.MAX_TACTICS);
+          tactics.forEach(c => {
+            const ejeLabel = c.ejeKey ? EJE_LABELS[c.ejeKey] || c.ejeKey : "Táctica";
+            builder.text(`[${ejeLabel}] ${c.title}`).newline();
+          });
+          
+          builder.separator()
+            .bold(true).text("El Re(s)et:").bold(false).newline();
+
+          // Print text with specific phrases in bold
+          const printRichText = (str) => {
+            const regex = /(1\.\s*Preparar?a?\s+presentes\s+alternativos|2\.\s*Servir\s+la\s+mesa\s+común)/gi;
+            const parts = str.split(regex);
+            parts.forEach(part => {
+              if (part.match(regex)) {
+                builder.newline().bold(true).text(part).bold(false);
+              } else if (part) {
+                builder.text(part);
+              }
+            });
+            builder.newline();
+          };
+          
+          printRichText(text);
+
+          builder.separator()
+            .bold(true).text("Dimensiones:").bold(false).newline()
+            .text(state.currentDimensions.join(", ")).newline()
+            .separator()
+            .alignCenter()
+            .text(`ID: ${hash}`).newline()
+            .newline()
+            .text("apicca.com").newline()
+            .feed(2)
+            .cut();
+
+          const buffer = builder.build();
+          state.lastPrintBuffer = buffer;
+          
+          if (ioPrintPill) ioPrintPill.classList.add("is-on");
+          try {
+            await printerService.sendData(buffer);
+            // Mantener el LED encendido un poco más para que coincida con el tiempo físico de impresión
+            await new Promise(r => setTimeout(r, 2000));
+          } finally {
+            if (ioPrintPill) ioPrintPill.classList.remove("is-on");
+          }
+        } catch (e) {
+          console.error("Error al imprimir:", e);
+        }
+      }
 
       if (answerSection) {
         answerSection.hidden = false;
@@ -901,6 +1098,16 @@ document.addEventListener("DOMContentLoaded", () => {
           b => b.dataset.dimension === dimensionValue
         );
         if (btn) btn.classList.toggle('active', targetCheckbox.checked);
+
+        const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
+        if (hasAnyDimension && answerSection) {
+          const hasPrintedCards = responseTextEl && responseTextEl.innerHTML.includes("resetario-output-hash");
+          if (!hasPrintedCards) answerSection.classList.remove("is-full");
+          answerSection.hidden = false;
+          if (responseTextEl && !responseTextEl.innerHTML.includes("resetario-output-footer-peek")) {
+            responseTextEl.insertAdjacentHTML('afterbegin', `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`);
+          }
+        }
       }
     }
   });

@@ -734,18 +734,20 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    animation: ejectFromDevice 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: ejectFromDevice 7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes ejectFromDevice {
     0% {
         opacity: 0;
-        transform: translateY(-40px) scale(0.95);
-        clip-path: inset(0 0 100% 0);
+        transform: translateY(calc(-100% + 30px));
+        clip-path: inset(calc(100% - 30px) -20px -20px -20px);
     }
 
-    30% {
+    8% {
         opacity: 1;
+        transform: translateY(calc(-100% + 40px));
+        clip-path: inset(calc(100% - 40px) -20px -20px -20px);
     }
 
     100% {
@@ -929,10 +931,14 @@ footer {
     margin-left: -1.4rem;
     margin-right: -1.4rem;
     margin-bottom: -0.9rem;
-    padding: 0.5rem 1.4rem;
+    padding: 0.6rem 1.4rem; /* Altura del footer reducida */
     background: #535353;
     border-radius: 0 0 14px 14px;
-    text-align: right;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
 }
 
 .resetario-output-hash {
@@ -1795,9 +1801,7 @@ footer {
         max-width: 100%;
     }
 
-    .hero-cta {
-        justify-content: center;
-    }
+
 
     .hero-visual {
         max-width: 300px;
@@ -2149,62 +2153,7 @@ body.te-home .hero-subtitle::after {
     color: var(--te-orange);
 }
 
-/* CTA tipo "function key" del aparato */
-body.te-home .hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 4px;
-}
 
-body.te-home .cta-primary,
-body.te-home .cta-secondary {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: lowercase;
-    padding: 14px 22px;
-    border-radius: 4px;
-    text-decoration: none;
-    border: 1.5px solid var(--ink);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: transform 120ms ease, box-shadow 120ms ease;
-    position: relative;
-}
-
-body.te-home .cta-primary {
-    background: var(--te-red);
-    color: var(--bone);
-    box-shadow: 4px 4px 0 var(--ink);
-}
-
-body.te-home .cta-secondary {
-    background: var(--bone);
-    color: var(--ink);
-    box-shadow: 4px 4px 0 var(--ink);
-}
-
-body.te-home .cta-primary::before,
-body.te-home .cta-secondary::before {
-    content: "▸";
-    font-family: inherit;
-    font-size: 11px;
-    display: inline-block;
-}
-
-body.te-home .cta-primary:hover,
-body.te-home .cta-secondary:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--ink);
-}
-
-body.te-home .cta-primary:active,
-body.te-home .cta-secondary:active {
-    transform: translate(4px, 4px);
-    box-shadow: 0 0 0 var(--ink);
-}
 
 /* ============================================================
    KO-II OUTPUT — tarjetas de respuesta fuera del dispositivo
@@ -3569,7 +3518,7 @@ body.te-resetario .resetario-title {
 }
 
 body.te-resetario .resetario-title::after {
-    content: "v0.2 · 2026";
+    content: "v0.3 · 2026";
     font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -3594,7 +3543,7 @@ body.te-resetario .resetario-title::before {
 
 body.te-resetario #ko-ii-device {
     max-width: 680px;
-    margin: 0 auto 64px auto;
+    margin: 0 auto 16px auto;
 }
 
 /* tornillos en las esquinas */
@@ -4258,7 +4207,7 @@ body.te-home .ts-swing-label {
     color: rgba(232, 226, 204, 0.55);
 }
 
-body.te-home .te-seq {
+body.te-home .te-hero-nav {
     background: var(--bone);
     border: 1.5px solid var(--ink);
     border-radius: 10px;
@@ -4270,7 +4219,7 @@ body.te-home .te-seq {
     align-items: center;
 }
 
-body.te-home .te-seq-meta {
+body.te-home .te-hero-nav-meta {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -4282,7 +4231,7 @@ body.te-home .te-seq-meta {
     min-width: 64px;
 }
 
-body.te-home .te-seq-meta strong {
+body.te-home .te-hero-nav-meta strong {
     background: var(--te-red);
     padding: 3px 7px;
     border-radius: 2px;
@@ -4292,58 +4241,77 @@ body.te-home .te-seq-meta strong {
     letter-spacing: 0.12em;
 }
 
-body.te-home .te-seq-steps {
+body.te-home .te-hero-nav-buttons {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
-body.te-home .te-seq-step {
-    aspect-ratio: 1 / 1;
+body.te-home .te-hero-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
     background-image: linear-gradient(180deg, #2a2a2a 0%, #0a0a0a 100%);
     border: 1px solid #050505;
-    border-radius: 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--lcd-text);
     position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 3px 4px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08), 
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-body.te-home .te-seq-step::before {
-    content: "";
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 6px;
-    height: 6px;
+body.te-home .te-hero-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.12), 
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.te-home .te-hero-btn:active {
+    transform: translateY(1px);
+    box-shadow: 
+        inset 0 1px 0 rgba(0, 0, 0, 0.2), 
+        inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+body.te-home .te-btn-led {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
+    transition: background 0.3s, box-shadow 0.3s;
 }
 
-body.te-home .te-seq-step[data-on]::before {
+body.te-home .te-btn-led.led-red {
     background: var(--te-red);
     box-shadow: 0 0 6px var(--te-red);
 }
 
-body.te-home .te-seq-step[data-on="agua"]::before,
-body.te-home .te-seq-step[data-on="comunicacion"]::before {
+body.te-home .te-btn-led.led-blue {
     background: var(--te-blue);
     box-shadow: 0 0 6px var(--te-blue);
 }
 
-body.te-home .te-seq-step-num {
+body.te-home .te-btn-label {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 600;
-    color: var(--lcd-text);
-    opacity: 0.55;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
 }
 
-body.te-home .te-seq-step[data-on] .te-seq-step-num {
-    opacity: 0.9;
+body.te-home .te-btn-num {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--lcd-text);
+    opacity: 0.4;
 }
 
 body.te-home .hero-subtitle::after {
@@ -4365,7 +4333,7 @@ body.te-home .about-section .section-eyebrow .count {
         margin-left: 0;
     }
 
-    body.te-home .te-seq {
+    body.te-home .te-hero-nav {
         grid-template-columns: 1fr;
     }
 }
@@ -4375,10 +4343,11 @@ body.te-home .about-section .section-eyebrow .count {
         justify-content: center;
     }
 
-    body.te-home .te-seq-step-num {
-        font-size: 7.5px;
+    body.te-home .te-hero-nav-buttons {
+        grid-template-columns: 1fr;
     }
 }
+
 
 /* Sponsors Section Re-added for Resetario */
 .sponsors-section {
@@ -4423,11 +4392,16 @@ body.te-home .about-section .section-eyebrow .count {
 
 @media (max-width: 768px) {
     .sponsors-logos {
-        gap: 25px;
-        flex-direction: column;
+        gap: 20px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
     }
     .sponsor-logo {
-        max-height: 40px;
+        max-height: 35px;
+        max-width: 30%;
+        width: auto;
+        object-fit: contain;
     }
 }
 
@@ -4524,16 +4498,11 @@ body.te-home .about-section .section-eyebrow .count {
         justify-content: space-between;
     }
 
-    /* Seq: usar todo el ancho disponible */
-    body.te-home .te-seq {
+    /* Hero nav: usar todo el ancho disponible */
+    body.te-home .te-hero-nav {
         width: 100%;
     }
 
-    body.te-home .te-seq-steps {
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        gap: 4px;
-    }
 
     /* --- Ejes grid: override del repeat(5,1fr) específico de te-home --- */
     body.te-home .ejes-grid {
@@ -4570,14 +4539,23 @@ body.te-home .about-section .section-eyebrow .count {
 
     /* I/O bar: pills más compactas y wrap controlado */
     body.te-home .device-io {
-        gap: 4px;
-        padding-bottom: 12px;
+        gap: 3px;
+        padding: 24px 18px 12px;
+        flex-wrap: nowrap;
+        justify-content: center;
     }
 
     body.te-home .device-io .io-pill {
-        font-size: 8px;
-        padding: 3px 7px 3px 13px;
-        letter-spacing: 0.14em;
+        font-size: 7px;
+        padding: 3px 6px 3px 13px;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+    }
+
+    body.te-home .device-io .io-pill::before {
+        width: 5px;
+        height: 5px;
+        left: 4px;
     }
 
     /* Pantalla LCD: altura adaptada a móvil */
@@ -4585,6 +4563,19 @@ body.te-home .about-section .section-eyebrow .count {
         height: auto;
         min-height: 280px;
         padding: 10px 12px;
+    }
+
+    /* Más padding inferior en las tarjetas dentro del display */
+    body.te-resetario .device-screen .screen-display {
+        padding-bottom: 28px;
+    }
+
+    body.te-resetario .device-screen .resetario-ai-info-front {
+        padding-bottom: 2.4rem;
+    }
+
+    body.te-resetario .device-screen .card-bottom {
+        padding-bottom: 2.2rem;
     }
 
     /* Fn-keys: 7 cols se mantienen pero más altas para tap */
@@ -4629,6 +4620,101 @@ body.te-home .about-section .section-eyebrow .count {
     body.te-home .device-branding {
         font-size: 1rem;
     }
+
+}
+
+/* ============================================================
+   Carta de respuesta: asoma por debajo del KO-II (móvil + desktop)
+   ============================================================ */
+body.te-home .page-container {
+    position: relative;
+    overflow: visible;
+}
+
+body.te-home .device {
+    position: relative;
+    z-index: 2;
+}
+
+body.te-home .resetario-ai-answer-section {
+    position: relative;
+    z-index: 1;
+    margin-top: -44px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    width: 85%;
+    height: 32px;
+    overflow: hidden;
+    pointer-events: none;
+    animation: peekSlideDown 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+body.te-home .resetario-ai-answer-section.is-full {
+    height: auto;
+    overflow: visible;
+    pointer-events: auto;
+    margin-top: 1rem;
+    padding: 1.2rem 1rem 2.5rem;
+    animation: none;
+}
+
+body.te-home .resetario-ai-answer-section #resetario-ai-response-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: auto;
+}
+
+.resetario-output-footer-peek {
+    text-align: center;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    margin: 0;
+    animation: peekSlideDown 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.te-home .resetario-ai-answer-section.is-full .resetario-peek-only {
+    position: absolute !important;
+    top: -60px !important;
+    left: 0;
+    right: 0;
+    margin: 0 auto !important;
+    z-index: 10;
+}
+
+body.te-home .resetario-ai-answer-section:not(.is-full) .resetario-output {
+    animation: none;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.resetario-output-peek-arrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--primary-white);
+    display: inline-block;
+}
+
+body.te-home .resetario-ai-answer-section.is-full #resetario-ai-response-text {
+    position: static;
+}
+
+@keyframes peekSlideDown {
+    0% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+body.te-home .ko-ii-output {
+    position: relative;
+    z-index: 1;
+}
+
+body.te-home .ko-ii-output[hidden] {
+    display: none;
 }
 
 /* Móvil pequeño (<540): refinamientos extra */
