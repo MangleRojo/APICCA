@@ -366,8 +366,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="resetario-output-peek-arrow" aria-hidden="true">▾</span>
       </div>`;
 
+    const existingPeekOutputs = responseTextEl.querySelectorAll('.is-peek, .resetario-peek-only');
+    existingPeekOutputs.forEach(el => el.remove());
+
+    if (loading) {
+      const peekHtml = `<div class="resetario-peek-only" style="width: 100%; max-width: 640px; margin: 0 auto;"><div class="resetario-output-footer resetario-output-footer-peek"><span class="resetario-output-peek-arrow" aria-hidden="true">▾</span></div></div>`;
+      responseTextEl.insertAdjacentHTML('afterbegin', peekHtml);
+      return null;
+    }
+
     const responseHtml = `
-      <div class="resetario-output ${loading ? 'is-peek' : 'is-final'}" aria-label="Respuesta del Re(s)etario">
+      <div class="resetario-output is-final" aria-label="Respuesta del Re(s)etario">
         <div class="resetario-output-header">
           <div class="resetario-output-title">
             <div class="resetario-output-title-main">Re(s)etario</div>
@@ -383,9 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ${footerHtml}
       </div>
     `;
-
-    const existingPeekOutputs = responseTextEl.querySelectorAll('.is-peek, .resetario-peek-only');
-    existingPeekOutputs.forEach(el => el.remove());
 
     responseTextEl.insertAdjacentHTML('afterbegin', responseHtml);
 
@@ -559,6 +565,42 @@ document.addEventListener("DOMContentLoaded", () => {
       .map((cb) => cb.value);
   }
 
+  function ensurePeekActive() {
+    if (state.isOutputMode) return;
+
+    const selectedDimensions = getSelectedDimensions();
+    const hasSelection = state.selectedGlyphCards.length > 0 || selectedDimensions.length > 0;
+
+    if (hasSelection) {
+      if (answerSection) {
+        const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+        if (!hasFinalCards) answerSection.classList.remove("is-full");
+        answerSection.hidden = false;
+      }
+
+      if (responseTextEl) {
+        const existingPeek = responseTextEl.querySelector('.resetario-peek-only');
+        if (!existingPeek) {
+          renderResetarioOutput({ text: "", cardInfo: null, loading: true });
+        }
+      }
+    } else {
+      if (responseTextEl) {
+        const existingPeek = responseTextEl.querySelector('.resetario-peek-only');
+        if (existingPeek) {
+          existingPeek.remove();
+        }
+      }
+      if (answerSection) {
+        const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
+        if (!hasFinalCards) {
+          answerSection.hidden = true;
+          answerSection.classList.remove("is-full");
+        }
+      }
+    }
+  }
+
   function buildPrompt(dimensions, glyphCards) {
     const userText = `Dimensiones seleccionadas: ${dimensions.join(", ")}.`;
     const tacticsText =
@@ -575,7 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("\n")
         : "";
     return tacticsText
-      ? `${userText}\n\nTacticas:\n\n${tacticsText}`
+      ? `${userText}\n\nTacticas:\n"""\n${tacticsText}\n"""`
       : userText;
   }
 
@@ -676,7 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setStatus("");
     if (responseTextEl) {
 
-      const peekCards = responseTextEl.querySelectorAll('.is-peek, .resetario-peek-only');
+      const peekCards = responseTextEl.querySelectorAll('.is-peek');
       peekCards.forEach(card => card.remove());
 
       const hasFinalCards = responseTextEl.querySelector('.is-final');
@@ -778,17 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
         state.currentGlyphIndex = chosen.id;
         btn.classList.add("has-card");
 
-        if (state.selectedGlyphCards.length === 1 && answerSection) {
-          const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
-          if (!hasFinalCards) answerSection.classList.remove("is-full");
-          answerSection.hidden = false;
-          if (responseTextEl) {
-            const existingPeek = responseTextEl.querySelector('.is-peek');
-            if (!existingPeek) {
-              renderResetarioOutput({ text: "", cardInfo: null, loading: true });
-            }
-          }
-        }
+        ensurePeekActive();
 
         renderSelectedGlyphCards();
       });
@@ -811,18 +843,7 @@ document.addEventListener("DOMContentLoaded", () => {
           targetCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
           btn.classList.toggle('active', targetCheckbox.checked);
 
-          const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
-          if (hasAnyDimension && answerSection) {
-            const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
-            if (!hasFinalCards) answerSection.classList.remove("is-full");
-            answerSection.hidden = false;
-            if (responseTextEl) {
-              const existingPeek = responseTextEl.querySelector('.is-peek');
-              if (!existingPeek) {
-                renderResetarioOutput({ text: "", cardInfo: null, loading: true });
-              }
-            }
-          }
+          ensurePeekActive();
         }
       });
     });
@@ -888,7 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Maintain peek arrow instead of clearing
     if (responseTextEl) {
-      const existingPeek = responseTextEl.querySelector('.is-peek');
+      const existingPeek = responseTextEl.querySelector('.resetario-peek-only');
       if (!existingPeek) {
         renderResetarioOutput({ text: "", cardInfo: null, loading: true });
       }
@@ -946,64 +967,73 @@ document.addEventListener("DOMContentLoaded", () => {
         dimensions: state.currentDimensions
       });
 
-      // Si la impresora está conectada, imprimir el resultado automáticamente
-      if (printerService.isConnected()) {
-        try {
-          const now = new Date();
-          const dateStr = now.toLocaleDateString();
-          const timeStr = now.toLocaleTimeString();
+      // Construir siempre el buffer de impresión para que la última Re(s)eta
+      // quede disponible aunque la impresora no esté conectada.
+      try {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString();
+        const timeStr = now.toLocaleTimeString();
 
-          const builder = new ReceiptBuilder();
-          builder.init()
-            .alignCenter()
-            .size(true)
-            .text("APICCA").newline()
-            .size(false)
-            .bold(true).text("Re(s)etario v.0.3").bold(false).newline()
-            .text(`${dateStr} ${timeStr}`).newline()
-            .separator()
-            .alignLeft()
-            .bold(true).text("Tácticas:").bold(false).newline();
+        const builder = new ReceiptBuilder();
+        builder.init()
+          .alignCenter()
+          .size(true)
+          .text("APICCA").newline()
+          .size(false)
+          .bold(true).text("Re(s)etario v.0.3").bold(false).newline()
+          .text(`${dateStr} ${timeStr}`).newline()
+          .separator()
+          .alignLeft()
+          .bold(true).text("Tácticas:").bold(false).newline();
 
-          const tactics = state.selectedGlyphCards.slice(0, CONFIG.MAX_TACTICS);
-          tactics.forEach(c => {
-            const ejeLabel = c.ejeKey ? EJE_LABELS[c.ejeKey] || c.ejeKey : "Táctica";
-            builder.text(`[${ejeLabel}] ${c.title}`).newline();
-          });
-          
-          builder.separator()
-            .bold(true).text("El Re(s)et:").bold(false).newline();
+        const tactics = state.selectedGlyphCards.slice(0, CONFIG.MAX_TACTICS);
+        tactics.forEach(c => {
+          const ejeLabel = c.ejeKey ? EJE_LABELS[c.ejeKey] || c.ejeKey : "Táctica";
+          builder.text(`[${ejeLabel}] ${c.title}`).newline();
+        });
 
-          // Print text with specific phrases in bold
-          const printRichText = (str) => {
-            const regex = /(1\.\s*Preparar?a?\s+presentes\s+alternativos|2\.\s*Servir\s+la\s+mesa\s+común)/gi;
-            const parts = str.split(regex);
-            parts.forEach(part => {
-              if (part.match(regex)) {
-                builder.newline().bold(true).text(part).bold(false);
-              } else if (part) {
-                builder.text(part);
-              }
-            });
-            builder.newline();
+        builder.separator()
+          .bold(true).text("El Re(s)et:").bold(false).newline();
+
+        // Print HTML response: <h4> headings in bold, other tags stripped.
+        const printRichText = (str) => {
+          const headingRegex = /<h4[^>]*>([\s\S]*?)<\/h4>/gi;
+          let lastIndex = 0;
+          let match;
+          const emitPlain = (chunk) => {
+            const plain = chunk.replace(/<[^>]+>/g, '').trim();
+            if (plain) builder.text(plain).newline();
           };
-          
-          printRichText(text);
+          while ((match = headingRegex.exec(str)) !== null) {
+            emitPlain(str.slice(lastIndex, match.index));
+            const heading = match[1].replace(/<[^>]+>/g, '').trim();
+            if (heading) {
+              builder.newline().bold(true).text(heading).bold(false).newline();
+            }
+            lastIndex = headingRegex.lastIndex;
+          }
+          emitPlain(str.slice(lastIndex));
+          builder.newline();
+        };
 
-          builder.separator()
-            .bold(true).text("Dimensiones:").bold(false).newline()
-            .text(state.currentDimensions.join(", ")).newline()
-            .separator()
-            .alignCenter()
-            .text(`ID: ${hash}`).newline()
-            .newline()
-            .text("apicca.com").newline()
-            .feed(2)
-            .cut();
+        printRichText(text);
 
-          const buffer = builder.build();
-          state.lastPrintBuffer = buffer;
-          
+        builder.separator()
+          .bold(true).text("Dimensiones:").bold(false).newline()
+          .text(state.currentDimensions.join(", ")).newline()
+          .separator()
+          .alignCenter()
+          .text(`ID: ${hash}`).newline()
+          .newline()
+          .text("apicca.com").newline()
+          .feed(2)
+          .cut();
+
+        const buffer = builder.build();
+        state.lastPrintBuffer = buffer;
+
+        // Si la impresora está conectada, imprimir automáticamente.
+        if (printerService.isConnected()) {
           if (ioPrintPill) ioPrintPill.classList.add("is-on");
           try {
             await printerService.sendData(buffer);
@@ -1012,15 +1042,16 @@ document.addEventListener("DOMContentLoaded", () => {
           } finally {
             if (ioPrintPill) ioPrintPill.classList.remove("is-on");
           }
-        } catch (e) {
-          console.error("Error al imprimir:", e);
         }
+      } catch (e) {
+        console.error("Error preparando/enviando la impresión:", e);
       }
 
       if (answerSection) {
         answerSection.hidden = false;
       }
       setFormBusy(false);
+      state.isOutputMode = false;
     } catch (err) {
       console.error("Error llamando al asistente del Re(s)etario:", err);
       setStatus(getErrorMessage(err, null));
@@ -1107,18 +1138,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         if (btn) btn.classList.toggle('active', targetCheckbox.checked);
 
-        const hasAnyDimension = Array.from(dimensionCheckboxes).some(cb => cb.checked);
-        if (hasAnyDimension && answerSection) {
-          const hasFinalCards = responseTextEl && responseTextEl.querySelector(".is-final");
-          if (!hasFinalCards) answerSection.classList.remove("is-full");
-          answerSection.hidden = false;
-          if (responseTextEl) {
-            const existingPeek = responseTextEl.querySelector('.is-peek');
-            if (!existingPeek) {
-              renderResetarioOutput({ text: "", cardInfo: null, loading: true });
-            }
-          }
-        }
+        ensurePeekActive();
       }
     }
   });
