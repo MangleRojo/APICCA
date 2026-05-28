@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Re(s)ets - APICCA COMÚN</title>
+
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Biblioteca de Re(s)ets - Colección de recetas de economías recíprocas generadas en el Re(s)etario">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://apicca.com/biblioteca">
+    <meta property="og:title" content="Biblioteca de Re(s)ets - APICCA COMÚN">
+    <meta property="og:description" content="Colección de Re(s)ets de Economías Recíprocas">
+    <meta property="og:image" content="https://apicca.com/img/social-share.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://apicca.com/biblioteca">
+    <meta property="twitter:title" content="Biblioteca de Re(s)ets - APICCA COMÚN">
+    <meta property="twitter:description" content="Colección de Re(s)ets de Economías Recíprocas">
+    <meta property="twitter:image" content="https://apicca.com/img/social-share.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="img/favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="te-biblioteca">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="img/apicca_logo.png" alt="apicca logo" class="logo-img">
+            </a>
+        </div>
+        <div class="menu-container">
+            <button class="menu-toggle" aria-label="Menú">
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="/apices">Ápices</a></li>
+                    <li><a href="/resetario">Re(s)etario</a></li>
+                    <li><a href="/biblioteca" class="active">Biblioteca</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="biblioteca-main">
+        <section class="biblioteca-section">
+            <div class="biblioteca-header">
+                <h1 class="page-title">biblioteca</h1>
+            </div>
+
+            <section id="biblioteca-activity" class="biblioteca-activity" aria-label="Actividad por fecha"></section>
+
+            <div class="biblioteca-search-container">
+                <div class="biblioteca-filter-group">
+                    <span class="biblioteca-filter-label">Buscar por texto</span>
+                    <input type="search" class="biblioteca-input-search" id="search-text" placeholder="Escribe para buscar..." aria-label="Buscar por texto">
+                </div>
+            </div>
+
+            <div class="biblioteca-filters" role="group" aria-label="Filtros">
+                <div class="biblioteca-filter-group">
+                    <span class="biblioteca-filter-label">Ámbitos de Autonomía Común</span>
+                    <div class="biblioteca-chip-row" id="filter-ejes">
+                        <button type="button" class="biblioteca-chip is-active" data-filter="eje" data-value="all">todos</button>
+                        <button type="button" class="biblioteca-chip" data-filter="eje" data-value="agua" data-color="blue">agua</button>
+                        <button type="button" class="biblioteca-chip" data-filter="eje" data-value="alimento" data-color="green">alimento</button>
+                        <button type="button" class="biblioteca-chip" data-filter="eje" data-value="cobijo" data-color="yellow">cobijo</button>
+                        <button type="button" class="biblioteca-chip" data-filter="eje" data-value="energia" data-color="red">energía</button>
+                        <button type="button" class="biblioteca-chip" data-filter="eje" data-value="comunicacion" data-color="orange">comunicación</button>
+                    </div>
+                </div>
+                <div class="biblioteca-filter-group">
+                    <span class="biblioteca-filter-label">Dimensiones</span>
+                    <div class="biblioteca-chip-row" id="filter-dimensiones">
+                        <button type="button" class="biblioteca-chip is-active" data-filter="dimension" data-value="all">todas</button>
+                        <button type="button" class="biblioteca-chip" data-filter="dimension" data-value="Tiempo">tiempo</button>
+                        <button type="button" class="biblioteca-chip" data-filter="dimension" data-value="Espacio">espacio</button>
+                        <button type="button" class="biblioteca-chip" data-filter="dimension" data-value="Información">info</button>
+                    </div>
+                </div>
+                <div class="biblioteca-filter-group">
+                    <span class="biblioteca-filter-label">Tácticas (Glyphos)</span>
+                    <select class="biblioteca-select" id="filter-tacticas" aria-label="Filtrar por táctica">
+                        <option value="all">todas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="biblioteca-status" class="biblioteca-status" role="status" aria-live="polite">Cargando Re(s)ets…</div>
+
+            <div id="biblioteca-grid" class="biblioteca-grid" aria-live="polite"></div>
+
+            <nav id="biblioteca-pager" class="biblioteca-pager" aria-label="Paginación"></nav>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <span class="footer-text">Apoyan:</span>
+            <div class="supporters-logos">
+                <a href="https://manglerojo.org" target="_blank" rel="noopener noreferrer">
+                    <img src="img/MangleRojo_logo.png" alt="MangleRojo ORG" class="supporter-logo-1">
+                </a>
+                <a href="https://labosquescuela.org" target="_blank" rel="noopener noreferrer">
+                    <img src="img/labosquescuela_logo.png" alt="LaBosquescuela UBA" class="supporter-logo-2">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    <script type="module" src="js/scripts.js"></script>
+    <script type="module" src="js/biblioteca.js"></script>
+</body>
+
+</html>

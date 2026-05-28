@@ -3,7 +3,7 @@ import { DotsBackground } from './components/DotsBackground.js';
 document.addEventListener('DOMContentLoaded', () => {
     // Background Animation (se omite en el Home rediseñado tipo "rack")
     const mainContainer = document.querySelector('main');
-    if (mainContainer && !document.body.classList.contains('te-home')) {
+    if (mainContainer && !document.body.classList.contains('te-home') && !document.body.classList.contains('te-biblioteca')) {
         new DotsBackground(mainContainer);
     }
 
